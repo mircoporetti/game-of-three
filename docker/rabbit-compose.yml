@@ -1,0 +1,11 @@
+rabbitmq:
+  image: rabbitmq:management
+  ports:
+    - "5672:5672"
+    - "15672:15672"
+  volumes:
+    - ./rabbitmq/logs:/var/log/rabbitmq/:rw
+    - ./rabbitmq/data:/var/lib/rabbitmq:rw
+    - ./rabbitmq/definitions.json:/opt/definitions.json:ro
+    - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+  hostname: got-rabbit
