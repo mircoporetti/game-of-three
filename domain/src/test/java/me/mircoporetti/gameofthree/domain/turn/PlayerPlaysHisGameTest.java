@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import static me.mircoporetti.gameofthree.domain.turn.GameBuilder.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -25,7 +26,7 @@ class PlayerPlaysHisGameTest {
     @Test
     void playANotFinalTurn() {
 
-        Game gameToBePlayed = new Game(20);
+        Game gameToBePlayed = aGame().withMove(10).build();
         doReturn(gameToBePlayed).when(opponentGame).calculateNextGame();
 
         underTest.invoke(opponentGame);
@@ -36,7 +37,7 @@ class PlayerPlaysHisGameTest {
     @Test
     void playTheFinalTurn() {
 
-        Game lastGame = new Game(1);
+        Game lastGame = aGame().withMove(1).build();
         doReturn(lastGame).when(opponentGame).calculateNextGame();
 
         underTest.invoke(opponentGame);
