@@ -1,8 +1,8 @@
 package me.mircoporetti.gameofthree.rabbitmq.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import me.mircoporetti.gameofthree.domain.turn.Game;
-import me.mircoporetti.gameofthree.domain.turn.PlayerPlaysHisGame;
+import me.mircoporetti.gameofthree.domain.game.Game;
+import me.mircoporetti.gameofthree.domain.game.PlayerPlaysHisGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

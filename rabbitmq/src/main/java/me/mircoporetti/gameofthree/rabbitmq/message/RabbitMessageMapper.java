@@ -2,7 +2,7 @@ package me.mircoporetti.gameofthree.rabbitmq.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.mircoporetti.gameofthree.domain.turn.Game;
+import me.mircoporetti.gameofthree.domain.game.Game;
 import org.springframework.amqp.core.Message;
 
 public class RabbitMessageMapper {

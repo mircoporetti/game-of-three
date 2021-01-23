@@ -2,8 +2,8 @@ package me.mircoporetti.gameofthree.rabbitmq;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.mircoporetti.gameofthree.domain.turn.GameNotificationPort;
-import me.mircoporetti.gameofthree.domain.turn.PlayerPlaysHisGame;
+import me.mircoporetti.gameofthree.domain.game.GameNotificationPort;
+import me.mircoporetti.gameofthree.domain.game.PlayerPlaysHisGame;
 import me.mircoporetti.gameofthree.rabbitmq.message.GameMessageConsumer;
 import me.mircoporetti.gameofthree.rabbitmq.message.GameMessageProducer;
 import me.mircoporetti.gameofthree.rabbitmq.message.RabbitMessageMapper;

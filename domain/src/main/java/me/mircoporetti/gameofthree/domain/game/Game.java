@@ -1,4 +1,4 @@
-package me.mircoporetti.gameofthree.domain.turn;
+package me.mircoporetti.gameofthree.domain.game;
 
 import java.util.Objects;
 

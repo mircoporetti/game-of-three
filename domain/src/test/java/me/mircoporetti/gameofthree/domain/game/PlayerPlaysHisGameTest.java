@@ -1,10 +1,10 @@
-package me.mircoporetti.gameofthree.domain.turn;
+package me.mircoporetti.gameofthree.domain.game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static me.mircoporetti.gameofthree.domain.turn.GameBuilder.*;
+import static me.mircoporetti.gameofthree.domain.game.GameBuilder.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
