@@ -12,7 +12,7 @@ public class PlayerPlaysHisGame {
 
         Game nextGame = opponentGame.calculateNextGame();
 
-        if(nextGame.isPlayable())
-            gamePostmanPort.notify(nextGame);
+        if(nextGame.checkIfPlayable())
+            gamePostmanPort.notifyGameToTheOpponent(nextGame);
     }
 }

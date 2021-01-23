@@ -30,7 +30,7 @@ class PlayerPlaysHisGameTest {
 
         underTest.invoke(opponentGame);
 
-        verify(gamePostmanPort).notify(gameToBePlayed);
+        verify(gamePostmanPort).notifyGameToTheOpponent(gameToBePlayed);
     }
 
     @Test
@@ -41,6 +41,6 @@ class PlayerPlaysHisGameTest {
 
         underTest.invoke(opponentGame);
 
-        verify(gamePostmanPort, never()).notify(lastGame);
+        verify(gamePostmanPort, never()).notifyGameToTheOpponent(lastGame);
     }
 }

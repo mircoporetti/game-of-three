@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.mircoporetti.gameofthree.domain.turn.GamePostmanPort;
 import me.mircoporetti.gameofthree.domain.turn.PlayerPlaysHisGame;
-import me.mircoporetti.gameofthree.rabbitmq.message.GameProducer;
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,15 +15,12 @@ public class ApplicationConfiguration {
     @Value("${game-of-three.player-name}")
     private String playerName;
 
+
     @Bean
     public Queue playerQueue() {
         return new Queue(playerName, false);
     }
 
-    @Bean
-    public GamePostmanPort gamePostmanPort(){
-        return new GameProducer();
-    }
 
     @Bean
     public PlayerPlaysHisGame playerPlaysHisTurn(GamePostmanPort gamePostman){

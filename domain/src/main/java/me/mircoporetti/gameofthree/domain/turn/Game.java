@@ -22,12 +22,16 @@ public class Game {
         return new Game(nextMove);
     }
 
-    public boolean isPlayable() {
+    public boolean checkIfPlayable() {
         return move != 1;
     }
 
     private boolean isDivisibleByThree(Integer move) {
         return move % 3 == 0;
+    }
+
+    public Integer getMove() {
+        return move;
     }
 
     @Override

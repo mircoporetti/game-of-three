@@ -13,26 +13,26 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class GameOfThreeMessageConsumerTest {
+class GameGameMessageConsumerTest {
 
     @Mock
     private PlayerPlaysHisGame playerPlaysHisGame;
     @Mock
     private GameOfThreeMessageMapper gameOfThreeMessageMapper;
 
-    private MessageConsumer underTest;
+    private GameMessageConsumer underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new MessageConsumer(gameOfThreeMessageMapper, playerPlaysHisGame);
+        underTest = new GameMessageConsumer(gameOfThreeMessageMapper, playerPlaysHisGame);
     }
 
     @Test
     void receiveAMessage_playYourTurn() throws JsonProcessingException {
         Message anyGivenMessage = new Message("".getBytes(), new MessageProperties());
 
-        doReturn(new GameOfThreeMessage(60)).when(gameOfThreeMessageMapper).toGameOfThreeMessage(any());
+        doReturn(new GameMessage(60)).when(gameOfThreeMessageMapper).toGameOfThreeMessage(any());
 
         underTest.listenToAPlay(anyGivenMessage);
 
