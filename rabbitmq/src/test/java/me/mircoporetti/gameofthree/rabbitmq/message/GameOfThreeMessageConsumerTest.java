@@ -1,8 +1,8 @@
 package me.mircoporetti.gameofthree.rabbitmq.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import me.mircoporetti.gameofthree.domain.turn.PlayerPlaysHisTurn;
-import me.mircoporetti.gameofthree.domain.turn.Turn;
+import me.mircoporetti.gameofthree.domain.turn.Game;
+import me.mircoporetti.gameofthree.domain.turn.PlayerPlaysHisGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,7 +16,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class GameOfThreeMessageConsumerTest {
 
     @Mock
-    private PlayerPlaysHisTurn playerPlaysHisTurn;
+    private PlayerPlaysHisGame playerPlaysHisGame;
     @Mock
     private GameOfThreeMessageMapper gameOfThreeMessageMapper;
 
@@ -25,7 +25,7 @@ class GameOfThreeMessageConsumerTest {
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new MessageConsumer(gameOfThreeMessageMapper, playerPlaysHisTurn);
+        underTest = new MessageConsumer(gameOfThreeMessageMapper, playerPlaysHisGame);
     }
 
     @Test
@@ -36,7 +36,7 @@ class GameOfThreeMessageConsumerTest {
 
         underTest.listenToAPlay(anyGivenMessage);
 
-        verify(playerPlaysHisTurn).invoke(new Turn(60));
+        verify(playerPlaysHisGame).invoke(new Game(60));
     }
 
     @Test
@@ -47,6 +47,6 @@ class GameOfThreeMessageConsumerTest {
 
         underTest.listenToAPlay(anyGivenMessage);
 
-        verify(playerPlaysHisTurn, never()).invoke(any());
+        verify(playerPlaysHisGame, never()).invoke(any());
     }
 }
