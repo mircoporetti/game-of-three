@@ -13,13 +13,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameMessageMapperTest {
+class MessageMapperTest {
 
-    private GameOfThreeMessageMapper underTest;
+    private MessageMapper underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new GameOfThreeMessageMapper(new ObjectMapper());
+        underTest = new MessageMapper(new ObjectMapper());
     }
 
     @Test
