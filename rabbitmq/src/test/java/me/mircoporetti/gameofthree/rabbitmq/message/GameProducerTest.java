@@ -24,7 +24,7 @@ class GameProducerTest {
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new GameMessageProducer(mapper, rabbitTemplate);
+        underTest = new GameMessageProducer(mapper, rabbitTemplate, "anOpponentName");
     }
 
     @Test
@@ -35,6 +35,6 @@ class GameProducerTest {
 
         underTest.notifyGameToTheOpponent(new Game(30));
 
-        verify(rabbitTemplate).convertAndSend("player1", messageToBeSent);
+        verify(rabbitTemplate).convertAndSend("anOpponentName", messageToBeSent);
     }
 }

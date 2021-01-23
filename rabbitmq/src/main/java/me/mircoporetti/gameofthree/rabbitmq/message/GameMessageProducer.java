@@ -4,17 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.turn.Game;
 import me.mircoporetti.gameofthree.domain.turn.GameNotificationPort;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Component;
 
-@Component
 public class GameMessageProducer implements GameNotificationPort {
 
     private final RabbitMessageMapper mapper;
     private final RabbitTemplate rabbitTemplate;
+    private final String opponentName;
 
-    public GameMessageProducer(RabbitMessageMapper mapper, RabbitTemplate rabbitTemplate) {
+    public GameMessageProducer(RabbitMessageMapper mapper, RabbitTemplate rabbitTemplate, String opponentName) {
         this.mapper = mapper;
         this.rabbitTemplate = rabbitTemplate;
+        this.opponentName = opponentName;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class GameMessageProducer implements GameNotificationPort {
         System.out.println("Game to be notified: " + gameToBeNotified);
         try {
             String jsonGame = mapper.toJsonMessage(gameToBeNotified);
-            rabbitTemplate.convertAndSend("player1", jsonGame);
+            rabbitTemplate.convertAndSend(opponentName, jsonGame);
         } catch (JsonProcessingException e) {
             System.out.println("There was a problem during the conversion of: " + gameToBeNotified);
             e.printStackTrace();

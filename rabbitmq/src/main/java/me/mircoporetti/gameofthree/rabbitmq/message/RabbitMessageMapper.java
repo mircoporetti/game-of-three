@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.mircoporetti.gameofthree.domain.turn.Game;
 import org.springframework.amqp.core.Message;
-import org.springframework.stereotype.Component;
 
-@Component
 public class RabbitMessageMapper {
 
     private final ObjectMapper mapper;
