@@ -6,7 +6,7 @@ import me.mircoporetti.gameofthree.domain.turn.GamePostmanPort;
 public class GameProducer implements GamePostmanPort {
 
     @Override
-    public void send(Game game) {
-
+    public void notify(Game gameToBeNotified) {
+        System.out.println("Game to be sent: " + gameToBeNotified);
     }
 }

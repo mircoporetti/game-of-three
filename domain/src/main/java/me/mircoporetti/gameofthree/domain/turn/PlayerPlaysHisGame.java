@@ -13,6 +13,6 @@ public class PlayerPlaysHisGame {
         Game nextGame = opponentGame.calculateNextGame();
 
         if(nextGame.isPlayable())
-            gamePostmanPort.send(nextGame);
+            gamePostmanPort.notify(nextGame);
     }
 }
