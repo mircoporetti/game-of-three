@@ -11,19 +11,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameMessageConsumer {
 
-    private final MessageMapper messageMapper;
+    private final RabbitMessageMapper rabbitMessageMapper;
     private final PlayerPlaysHisGame playerPlaysHisGame;
 
     @Autowired
-    public GameMessageConsumer(MessageMapper messageMapper, PlayerPlaysHisGame playerPlaysHisGame) {
-        this.messageMapper = messageMapper;
+    public GameMessageConsumer(RabbitMessageMapper rabbitMessageMapper, PlayerPlaysHisGame playerPlaysHisGame) {
+        this.rabbitMessageMapper = rabbitMessageMapper;
         this.playerPlaysHisGame = playerPlaysHisGame;
     }
 
     @RabbitListener(queues = "${game-of-three.player-name}")
     public void listenToAPlay(Message message) {
         try{
-            GameMessage opponentMessage = messageMapper.toGameOfThreeMessage(message);
+            GameMessage opponentMessage = rabbitMessageMapper.toGameOfThreeMessage(message);
             playerPlaysHisGame.invoke(new Game(opponentMessage.getMove()));
         } catch (JsonProcessingException e) {
             System.out.println("There was a problem during the conversion of: " + message);

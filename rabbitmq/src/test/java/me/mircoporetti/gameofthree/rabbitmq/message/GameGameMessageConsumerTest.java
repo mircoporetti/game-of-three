@@ -18,21 +18,21 @@ class GameGameMessageConsumerTest {
     @Mock
     private PlayerPlaysHisGame playerPlaysHisGame;
     @Mock
-    private MessageMapper messageMapper;
+    private RabbitMessageMapper rabbitMessageMapper;
 
     private GameMessageConsumer underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new GameMessageConsumer(messageMapper, playerPlaysHisGame);
+        underTest = new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame);
     }
 
     @Test
     void receiveAMessage_playYourTurn() throws JsonProcessingException {
         Message anyGivenMessage = new Message("".getBytes(), new MessageProperties());
 
-        doReturn(new GameMessage(60)).when(messageMapper).toGameOfThreeMessage(any());
+        doReturn(new GameMessage(60)).when(rabbitMessageMapper).toGameOfThreeMessage(any());
 
         underTest.listenToAPlay(anyGivenMessage);
 
@@ -43,7 +43,7 @@ class GameGameMessageConsumerTest {
     void cannotReceiveOpponentMessage_dontPlayYourTurn() throws JsonProcessingException {
         Message anyGivenMessage = new Message("".getBytes(), new MessageProperties());
 
-        doThrow(JsonProcessingException.class).when(messageMapper).toGameOfThreeMessage(any());
+        doThrow(JsonProcessingException.class).when(rabbitMessageMapper).toGameOfThreeMessage(any());
 
         underTest.listenToAPlay(anyGivenMessage);
 

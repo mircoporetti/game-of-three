@@ -15,7 +15,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class GameProducerTest {
 
     @Mock
-    private MessageMapper mapper;
+    private RabbitMessageMapper mapper;
     @Mock
     private RabbitTemplate rabbitTemplate;
 
@@ -30,7 +30,7 @@ class GameProducerTest {
     @Test
     void notifyGame() throws JsonProcessingException {
 
-        String messageToBeSent = "{\"move\":30";
+        String messageToBeSent = "{\"move\":something}";
         doReturn(messageToBeSent).when(mapper).toJsonMessage(any());
 
         underTest.notifyGameToTheOpponent(new Game(30));

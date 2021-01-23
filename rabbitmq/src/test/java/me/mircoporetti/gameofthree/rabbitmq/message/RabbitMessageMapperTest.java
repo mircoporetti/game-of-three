@@ -2,6 +2,7 @@ package me.mircoporetti.gameofthree.rabbitmq.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.mircoporetti.gameofthree.domain.turn.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.Message;
@@ -13,13 +14,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MessageMapperTest {
+class RabbitMessageMapperTest {
 
-    private MessageMapper underTest;
+    private RabbitMessageMapper underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new MessageMapper(new ObjectMapper());
+        underTest = new RabbitMessageMapper(new ObjectMapper());
     }
 
     @Test
@@ -38,5 +39,14 @@ class MessageMapperTest {
         Message givenMessage = new Message(givenJson.getBytes(StandardCharsets.UTF_8), new MessageProperties());
 
         assertThrows(JsonProcessingException.class, () -> underTest.toGameOfThreeMessage(givenMessage));
+    }
+
+    @Test
+    void toJsonMessage() throws JsonProcessingException {
+        Game givenGame = new Game(60);
+
+        String result = underTest.toJsonMessage(givenGame);
+
+        assertThat(result, is("{\"move\":60}"));
     }
 }

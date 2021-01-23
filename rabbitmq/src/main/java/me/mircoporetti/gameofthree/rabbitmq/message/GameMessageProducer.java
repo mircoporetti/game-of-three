@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameMessageProducer implements GamePostmanPort {
 
-    private final MessageMapper mapper;
+    private final RabbitMessageMapper mapper;
     private final RabbitTemplate rabbitTemplate;
 
-    public GameMessageProducer(MessageMapper mapper, RabbitTemplate rabbitTemplate) {
+    public GameMessageProducer(RabbitMessageMapper mapper, RabbitTemplate rabbitTemplate) {
         this.mapper = mapper;
         this.rabbitTemplate = rabbitTemplate;
     }

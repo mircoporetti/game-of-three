@@ -7,11 +7,11 @@ import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MessageMapper {
+public class RabbitMessageMapper {
 
     private final ObjectMapper mapper;
 
-    public MessageMapper(ObjectMapper mapper) {
+    public RabbitMessageMapper(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
