@@ -20,7 +20,7 @@ public class MessageConsumer {
         this.playerPlaysHisGame = playerPlaysHisGame;
     }
 
-    @RabbitListener(queues = "player1")
+    @RabbitListener(queues = "${game-of-three.player-name}")
     public void listenToAPlay(Message message) {
         try{
             GameOfThreeMessage opponentMessage = gameOfThreeMessageMapper.toGameOfThreeMessage(message);

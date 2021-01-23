@@ -6,15 +6,19 @@ import me.mircoporetti.gameofthree.domain.turn.GamePostmanPort;
 import me.mircoporetti.gameofthree.domain.turn.PlayerPlaysHisGame;
 import me.mircoporetti.gameofthree.rabbitmq.message.GameProducer;
 import org.springframework.amqp.core.Queue;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApplicationConfiguration {
 
+    @Value("${game-of-three.player-name}")
+    private String playerName;
+
     @Bean
     public Queue playerQueue() {
-        return new Queue("player1", false);
+        return new Queue(playerName, false);
     }
 
     @Bean
