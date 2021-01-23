@@ -2,10 +2,10 @@ package me.mircoporetti.gameofthree.domain.turn;
 
 public class PlayerPlaysHisGame {
 
-    private final GamePostmanPort gamePostmanPort;
+    private final GameNotificationPort gameNotificationPort;
 
-    public PlayerPlaysHisGame(GamePostmanPort gamePostmanPort) {
-        this.gamePostmanPort = gamePostmanPort;
+    public PlayerPlaysHisGame(GameNotificationPort gameNotificationPort) {
+        this.gameNotificationPort = gameNotificationPort;
     }
 
     public void invoke(Game opponentGame) {
@@ -13,6 +13,6 @@ public class PlayerPlaysHisGame {
         Game nextGame = opponentGame.calculateNextGame();
 
         if(nextGame.checkIfPlayable())
-            gamePostmanPort.notifyGameToTheOpponent(nextGame);
+            gameNotificationPort.notifyGameToTheOpponent(nextGame);
     }
 }

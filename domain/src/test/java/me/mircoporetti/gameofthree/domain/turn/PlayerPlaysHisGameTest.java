@@ -12,14 +12,14 @@ class PlayerPlaysHisGameTest {
     @Mock
     private Game opponentGame;
     @Mock
-    private GamePostmanPort gamePostmanPort;
+    private GameNotificationPort gameNotificationPort;
 
     private PlayerPlaysHisGame underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerPlaysHisGame(gamePostmanPort);
+        underTest = new PlayerPlaysHisGame(gameNotificationPort);
     }
 
     @Test
@@ -30,7 +30,7 @@ class PlayerPlaysHisGameTest {
 
         underTest.invoke(opponentGame);
 
-        verify(gamePostmanPort).notifyGameToTheOpponent(gameToBePlayed);
+        verify(gameNotificationPort).notifyGameToTheOpponent(gameToBePlayed);
     }
 
     @Test
@@ -41,6 +41,6 @@ class PlayerPlaysHisGameTest {
 
         underTest.invoke(opponentGame);
 
-        verify(gamePostmanPort, never()).notifyGameToTheOpponent(lastGame);
+        verify(gameNotificationPort, never()).notifyGameToTheOpponent(lastGame);
     }
 }

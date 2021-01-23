@@ -2,7 +2,7 @@ package me.mircoporetti.gameofthree.rabbitmq;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.mircoporetti.gameofthree.domain.turn.GamePostmanPort;
+import me.mircoporetti.gameofthree.domain.turn.GameNotificationPort;
 import me.mircoporetti.gameofthree.domain.turn.PlayerPlaysHisGame;
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +23,7 @@ public class ApplicationConfiguration {
 
 
     @Bean
-    public PlayerPlaysHisGame playerPlaysHisTurn(GamePostmanPort gamePostman){
+    public PlayerPlaysHisGame playerPlaysHisTurn(GameNotificationPort gamePostman){
         return new PlayerPlaysHisGame(gamePostman);
     }
 

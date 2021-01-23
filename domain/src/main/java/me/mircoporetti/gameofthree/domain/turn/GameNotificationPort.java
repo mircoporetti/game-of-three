@@ -1,5 +1,5 @@
 package me.mircoporetti.gameofthree.domain.turn;
 
-public interface GamePostmanPort {
+public interface GameNotificationPort {
     void notifyGameToTheOpponent(Game game);
 }
