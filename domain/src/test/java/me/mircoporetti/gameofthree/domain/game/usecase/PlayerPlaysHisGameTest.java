@@ -1,10 +1,12 @@
-package me.mircoporetti.gameofthree.domain.game;
+package me.mircoporetti.gameofthree.domain.game.usecase;
 
+import me.mircoporetti.gameofthree.domain.game.Game;
+import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static me.mircoporetti.gameofthree.domain.game.GameBuilder.*;
+import static me.mircoporetti.gameofthree.domain.game.GameBuilder.aGame;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -12,8 +14,8 @@ class PlayerPlaysHisGameTest {
 
     /*
     I previously separated the Game domain model's tests from the use case's tests.
-    Then I found it not very useful and in my opinion, for this specific case, it had no a real value.
-    For this reason I decided to test the entire behaviours here.
+    Then I found it not very useful in this specific case and in my opinion it had no a real value.
+    I decided to test the business logic here.
     */
 
     @Mock

@@ -2,7 +2,7 @@ package me.mircoporetti.gameofthree.rabbitamqp.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
-import me.mircoporetti.gameofthree.domain.game.GameNotificationPort;
+import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 public class RabbitGameProducer implements GameNotificationPort {

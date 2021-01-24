@@ -2,7 +2,12 @@ package me.mircoporetti.gameofthree.rabbitamqp;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.mircoporetti.gameofthree.domain.game.*;
+import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
+import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayerPlaysHisGame;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayerStartsToPlay;
+import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameConsumer;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameProducer;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameMapper;

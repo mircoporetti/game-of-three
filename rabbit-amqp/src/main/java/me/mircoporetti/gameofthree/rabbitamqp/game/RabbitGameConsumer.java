@@ -2,8 +2,8 @@ package me.mircoporetti.gameofthree.rabbitamqp.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
-import me.mircoporetti.gameofthree.domain.game.PlayGameUseCase;
-import me.mircoporetti.gameofthree.domain.game.StartToPlayUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 

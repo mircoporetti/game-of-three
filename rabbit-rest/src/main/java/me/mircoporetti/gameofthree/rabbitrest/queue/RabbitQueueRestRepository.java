@@ -1,11 +1,13 @@
 package me.mircoporetti.gameofthree.rabbitrest.queue;
 
-import me.mircoporetti.gameofthree.domain.game.QueueRepositoryPort;
+import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -33,7 +35,6 @@ public class RabbitQueueRestRepository  implements QueueRepositoryPort {
         }catch (HttpClientErrorException e){
             throw new Exception("Queue: " + queueName + "does not exist");
         }
-
     }
 
     private HttpHeaders createHeaders(String username, String password){

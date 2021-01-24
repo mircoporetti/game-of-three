@@ -1,4 +1,7 @@
-package me.mircoporetti.gameofthree.domain.game;
+package me.mircoporetti.gameofthree.domain.game.usecase;
+
+import me.mircoporetti.gameofthree.domain.game.Game;
+import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
 
 public class PlayerPlaysHisGame implements PlayGameUseCase {
 

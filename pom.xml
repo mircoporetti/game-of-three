@@ -18,6 +18,7 @@
         <module>rabbit-amqp</module>
         <module>domain</module>
         <module>rabbit-rest</module>
+        <module>console</module>
     </modules>
 
     <properties>
