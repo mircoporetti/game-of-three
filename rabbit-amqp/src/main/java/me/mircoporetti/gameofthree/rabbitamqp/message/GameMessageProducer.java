@@ -17,7 +17,6 @@ public class GameMessageProducer implements GameNotificationPort {
 
     @Override
     public void notifyGameToTheOpponent(Game gameToBeNotified, String opponentName) {
-        System.out.println("Game to be notified: " + gameToBeNotified);
         try {
             String jsonGame = mapper.toJsonMessage(gameToBeNotified);
             rabbitTemplate.convertAndSend(opponentName, jsonGame);

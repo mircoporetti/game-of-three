@@ -14,12 +14,17 @@ public class PlayerStartsToPlay implements StartToPlayUseCase {
 
     @Override
     public void invoke(String playerName, String opponentName) {
-        Integer numberOfOpponentGames = queueRepositoryPort.getNumberOfMessagesIn(playerName);
-
-        if(numberOfOpponentGames == 0) {
-            Random random = new Random();
-            int randomMove = Math.abs(random.nextInt());
-            gameNotificationPort.notifyGameToTheOpponent(new Game(randomMove), opponentName);
+        Integer numberOfOpponentGames;
+        try {
+            numberOfOpponentGames = queueRepositoryPort.getNumberOfMessagesIn(playerName);
+            if(numberOfOpponentGames == 0) {
+                Random random = new Random();
+                int randomMove = Math.abs(random.nextInt());
+                gameNotificationPort.notifyGameToTheOpponent(new Game(randomMove), opponentName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 }

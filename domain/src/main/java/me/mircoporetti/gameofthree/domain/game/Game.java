@@ -12,14 +12,22 @@ public class Game {
 
     public Game calculateNextGame() {
         int nextMove;
-        if(isDivisibleByThree(move))
+        if(isDivisibleByThree(move)) {
             nextMove = move / 3;
-        else if (isDivisibleByThree(move + 1))
-            nextMove = (move + 1) / 3 ;
-        else
-            nextMove = (move -1) / 3;
+            printGameSteps(nextMove, 0, move);
+        } else if (isDivisibleByThree(move + 1)) {
+            nextMove = (move + 1) / 3;
+            printGameSteps(nextMove, 1, move);
+        } else {
+            nextMove = (move - 1) / 3;
+            printGameSteps(nextMove, -1, move);
+        }
 
         return new Game(nextMove);
+    }
+
+    private void printGameSteps(int nextMove, int i, Integer move) {
+        System.out.println("Added " + i + " to " + move + " ==> " + (move + i) + " / " + 3 + " = " + nextMove);
     }
 
     public boolean checkIfPlayable() {

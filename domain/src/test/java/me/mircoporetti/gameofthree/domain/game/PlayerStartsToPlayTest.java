@@ -24,7 +24,7 @@ class PlayerStartsToPlayTest {
     }
 
     @Test
-    void playerIsTheFirstToPlay_playHisFirstRandomMove() {
+    void playerIsTheFirstToPlay_playHisFirstRandomMove() throws Exception {
         doReturn(0).when(queueRepositoryPort).getNumberOfMessagesIn(any());
 
         underTest.invoke("aPlayerName", "anOpponentName");
@@ -34,7 +34,7 @@ class PlayerStartsToPlayTest {
     }
 
     @Test
-    void gameAlreadyStarted_doNothing() {
+    void gameAlreadyStarted_doNothing() throws Exception {
         doReturn(1).when(queueRepositoryPort).getNumberOfMessagesIn(any());
 
         underTest.invoke("aPlayerName", "anOpponentName");
