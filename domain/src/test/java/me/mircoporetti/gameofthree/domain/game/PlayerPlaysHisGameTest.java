@@ -10,38 +10,63 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 class PlayerPlaysHisGameTest {
 
-    @Mock
-    private Game opponentGame;
+    /*
+    I previously separated the Game domain model's tests from the use case's tests.
+    Then I found it not very useful and in my opinion, for this specific case, it had no a real value.
+    For this reason I decided to test the entire behaviours here.
+    */
+
     @Mock
     private GameNotificationPort gameNotificationPort;
 
-    private PlayerPlaysHisGame underTest;
+    private PlayGameHisGame underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerPlaysHisGame(gameNotificationPort);
+        underTest = new PlayGameHisGame(gameNotificationPort);
     }
 
     @Test
-    void playANotFinalTurn() {
+    void playANotFinalTurn_moveAlreadyDivisibleByThree() {
 
-        Game gameToBePlayed = aGame().withMove(10).build();
-        doReturn(gameToBePlayed).when(opponentGame).calculateNextGame();
+        Game opponentGame = aGame().withMove(9).build();
+        Game expectedGameToBeNotified = aGame().withMove(3).build();
 
         underTest.invoke(opponentGame);
 
-        verify(gameNotificationPort).notifyGameToTheOpponent(gameToBePlayed);
+        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified);
+    }
+
+    @Test
+    void playANotFinalTurn_movePlusOneDivisibleByThree() {
+
+        Game opponentGame = aGame().withMove(8).build();
+        Game expectedGameToBeNotified = aGame().withMove(3).build();
+
+        underTest.invoke(opponentGame);
+
+        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified);
+    }
+
+    @Test
+    void playANotFinalTurn_moveMinusOneDivisibleByThree() {
+
+        Game opponentGame = aGame().withMove(10).build();
+        Game expectedGameToBeNotified = aGame().withMove(3).build();
+
+        underTest.invoke(opponentGame);
+
+        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified);
     }
 
     @Test
     void playTheFinalTurn() {
 
-        Game lastGame = aGame().withMove(1).build();
-        doReturn(lastGame).when(opponentGame).calculateNextGame();
+        Game opponentGame = aGame().withMove(3).build();
 
         underTest.invoke(opponentGame);
 
-        verify(gameNotificationPort, never()).notifyGameToTheOpponent(lastGame);
+        verify(gameNotificationPort, never()).notifyGameToTheOpponent(any());
     }
 }

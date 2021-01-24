@@ -2,7 +2,8 @@ package me.mircoporetti.gameofthree.rabbitmq.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
-import me.mircoporetti.gameofthree.domain.game.PlayerPlaysHisGame;
+import me.mircoporetti.gameofthree.domain.game.PlayGameHisGame;
+import me.mircoporetti.gameofthree.domain.game.PlayGameUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,10 +14,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class GameGameMessageConsumerTest {
+class GameMessageConsumerTest {
 
     @Mock
-    private PlayerPlaysHisGame playerPlaysHisGame;
+    private PlayGameUseCase playerPlaysHisGame;
     @Mock
     private RabbitMessageMapper rabbitMessageMapper;
 

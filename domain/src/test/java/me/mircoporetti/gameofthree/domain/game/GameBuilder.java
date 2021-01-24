@@ -2,7 +2,7 @@ package me.mircoporetti.gameofthree.domain.game;
 
 public class GameBuilder {
 
-    private Integer move = 0;
+    private Integer move = 100;
 
     public static GameBuilder aGame() {
         return new GameBuilder();

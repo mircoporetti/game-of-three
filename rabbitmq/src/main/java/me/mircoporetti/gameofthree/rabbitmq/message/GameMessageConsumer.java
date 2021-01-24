@@ -2,16 +2,16 @@ package me.mircoporetti.gameofthree.rabbitmq.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
-import me.mircoporetti.gameofthree.domain.game.PlayerPlaysHisGame;
+import me.mircoporetti.gameofthree.domain.game.PlayGameUseCase;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 public class GameMessageConsumer {
 
     private final RabbitMessageMapper rabbitMessageMapper;
-    private final PlayerPlaysHisGame playerPlaysHisGame;
+    private final PlayGameUseCase playerPlaysHisGame;
 
-    public GameMessageConsumer(RabbitMessageMapper rabbitMessageMapper, PlayerPlaysHisGame playerPlaysHisGame) {
+    public GameMessageConsumer(RabbitMessageMapper rabbitMessageMapper, PlayGameUseCase playerPlaysHisGame) {
         this.rabbitMessageMapper = rabbitMessageMapper;
         this.playerPlaysHisGame = playerPlaysHisGame;
     }
