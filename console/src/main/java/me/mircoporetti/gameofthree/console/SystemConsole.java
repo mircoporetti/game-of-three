@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class SystemGameOfThreeConsole implements GameOfThreeConsole {
+public class SystemConsole implements GameOfThreeConsole {
 
     @Override
     public void print(String line) {
