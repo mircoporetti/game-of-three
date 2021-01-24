@@ -1,4 +1,4 @@
-package me.mircoporetti.gameofthree.rabbitamqp.message;
+package me.mircoporetti.gameofthree.rabbitamqp.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
@@ -15,19 +15,19 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class GameProducerTest {
 
     @Mock
-    private RabbitMessageMapper mapper;
+    private RabbitGameMapper mapper;
     @Mock
     private RabbitTemplate rabbitTemplate;
 
     private String opponentName;
 
-    private GameMessageProducer underTest;
+    private RabbitGameProducer underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
         opponentName = "anOpponentName";
-        underTest = new GameMessageProducer(mapper, rabbitTemplate);
+        underTest = new RabbitGameProducer(mapper, rabbitTemplate);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package me.mircoporetti.gameofthree.rabbitamqp.message;
+package me.mircoporetti.gameofthree.rabbitamqp.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
@@ -9,16 +9,16 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import javax.annotation.PostConstruct;
 
-public class GameMessageConsumer {
+public class RabbitGameConsumer {
 
-    private final RabbitMessageMapper rabbitMessageMapper;
+    private final RabbitGameMapper rabbitGameMapper;
     private final PlayGameUseCase playerPlaysHisGame;
     private final StartToPlayUseCase playerStartsToPlay;
     private final String playerName;
     private final String opponentName;
 
-    public GameMessageConsumer(RabbitMessageMapper rabbitMessageMapper, PlayGameUseCase playerPlaysHisGame, StartToPlayUseCase playerStartsToPlay, String playerName, String opponentName) {
-        this.rabbitMessageMapper = rabbitMessageMapper;
+    public RabbitGameConsumer(RabbitGameMapper rabbitGameMapper, PlayGameUseCase playerPlaysHisGame, StartToPlayUseCase playerStartsToPlay, String playerName, String opponentName) {
+        this.rabbitGameMapper = rabbitGameMapper;
         this.playerPlaysHisGame = playerPlaysHisGame;
         this.playerStartsToPlay = playerStartsToPlay;
         this.playerName = playerName;
@@ -33,10 +33,10 @@ public class GameMessageConsumer {
     @RabbitListener(queues = "${game-of-three.player-name}")
     public void consumeOpponentGame(Message message) {
         try{
-            GameMessage opponentMessage = rabbitMessageMapper.toGameOfThreeMessage(message);
+            RabbitGame opponentMessage = rabbitGameMapper.toGameOfThreeMessage(message);
             playerPlaysHisGame.invoke(new Game(opponentMessage.getMove()), opponentName);
         } catch (JsonProcessingException e) {
-            System.out.println("There was a problem during the conversion of: " + message);
+            System.out.println("There was a problem parsing the following message: " + message);
             e.printStackTrace();
         }
     }

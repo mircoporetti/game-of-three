@@ -1,15 +1,15 @@
-package me.mircoporetti.gameofthree.rabbitamqp.message;
+package me.mircoporetti.gameofthree.rabbitamqp.game;
 
 import java.util.Objects;
 
-public class GameMessage {
+public class RabbitGame {
 
     private Integer move;
 
-    public GameMessage() {
+    public RabbitGame() {
     }
 
-    public GameMessage(Integer move) {
+    public RabbitGame(Integer move) {
         this.move = move;
     }
 
@@ -21,8 +21,8 @@ public class GameMessage {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GameMessage gameMessage = (GameMessage) o;
-        return Objects.equals(move, gameMessage.move);
+        RabbitGame rabbitGame = (RabbitGame) o;
+        return Objects.equals(move, rabbitGame.move);
     }
 
     @Override

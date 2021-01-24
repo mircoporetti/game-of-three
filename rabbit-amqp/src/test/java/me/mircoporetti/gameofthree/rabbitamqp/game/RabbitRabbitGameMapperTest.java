@@ -1,4 +1,4 @@
-package me.mircoporetti.gameofthree.rabbitamqp.message;
+package me.mircoporetti.gameofthree.rabbitamqp.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,13 +14,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class RabbitMessageMapperTest {
+class RabbitRabbitGameMapperTest {
 
-    private RabbitMessageMapper underTest;
+    private RabbitGameMapper underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new RabbitMessageMapper(new ObjectMapper());
+        underTest = new RabbitGameMapper(new ObjectMapper());
     }
 
     @Test
@@ -28,9 +28,9 @@ class RabbitMessageMapperTest {
         String givenJson = "{\"move\": 60}";
         Message givenMessage = new Message(givenJson.getBytes(StandardCharsets.UTF_8), new MessageProperties());
 
-        GameMessage result = underTest.toGameOfThreeMessage(givenMessage);
+        RabbitGame result = underTest.toGameOfThreeMessage(givenMessage);
 
-        assertThat(result, is(new GameMessage(60)));
+        assertThat(result, is(new RabbitGame(60)));
     }
 
     @Test

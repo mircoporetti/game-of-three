@@ -3,9 +3,9 @@ package me.mircoporetti.gameofthree.rabbitamqp;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.mircoporetti.gameofthree.domain.game.*;
-import me.mircoporetti.gameofthree.rabbitamqp.message.GameMessageConsumer;
-import me.mircoporetti.gameofthree.rabbitamqp.message.GameMessageProducer;
-import me.mircoporetti.gameofthree.rabbitamqp.message.RabbitMessageMapper;
+import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameConsumer;
+import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameProducer;
+import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameMapper;
 import me.mircoporetti.gameofthree.rabbitrest.queue.RabbitQueueRestRepository;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -50,13 +50,13 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public GameMessageConsumer gameMessageConsumer(RabbitMessageMapper rabbitMessageMapper, PlayGameUseCase playerPlaysHisGame,  StartToPlayUseCase playerStartsToPlay){
-        return new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame, playerStartsToPlay, playerName, opponentName);
+    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameUseCase playerPlaysHisGame, StartToPlayUseCase playerStartsToPlay){
+        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerStartsToPlay, playerName, opponentName);
     }
 
     @Bean
-    public GameNotificationPort gameNotificationPort(RabbitMessageMapper rabbitMessageMapper, RabbitTemplate rabbitTemplate){
-        return new GameMessageProducer(rabbitMessageMapper, rabbitTemplate);
+    public GameNotificationPort gameNotificationPort(RabbitGameMapper rabbitGameMapper, RabbitTemplate rabbitTemplate){
+        return new RabbitGameProducer(rabbitGameMapper, rabbitTemplate);
     }
 
     @Bean
@@ -76,7 +76,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public RabbitMessageMapper rabbitMessageMapper(ObjectMapper mapper){
-        return new RabbitMessageMapper(mapper);
+    public RabbitGameMapper rabbitMessageMapper(ObjectMapper mapper){
+        return new RabbitGameMapper(mapper);
     }
 }

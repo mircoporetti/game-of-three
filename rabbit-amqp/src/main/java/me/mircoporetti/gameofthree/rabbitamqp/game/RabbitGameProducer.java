@@ -1,16 +1,16 @@
-package me.mircoporetti.gameofthree.rabbitamqp.message;
+package me.mircoporetti.gameofthree.rabbitamqp.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.GameNotificationPort;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-public class GameMessageProducer implements GameNotificationPort {
+public class RabbitGameProducer implements GameNotificationPort {
 
-    private final RabbitMessageMapper mapper;
+    private final RabbitGameMapper mapper;
     private final RabbitTemplate rabbitTemplate;
 
-    public GameMessageProducer(RabbitMessageMapper mapper, RabbitTemplate rabbitTemplate) {
+    public RabbitGameProducer(RabbitGameMapper mapper, RabbitTemplate rabbitTemplate) {
         this.mapper = mapper;
         this.rabbitTemplate = rabbitTemplate;
     }
