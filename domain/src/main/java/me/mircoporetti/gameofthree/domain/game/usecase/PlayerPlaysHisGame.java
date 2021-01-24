@@ -21,7 +21,7 @@ public class PlayerPlaysHisGame implements PlayGameUseCase {
         if(nextGame.checkIfPlayable()) {
             gameNotificationPort.notifyGameToTheOpponent(nextGame, opponentName);
         } else {
-            gameOfThreeConsole.print("WIN!!!");
+            gameOfThreeConsole.print("WIN!!! Congrats, pick another one! :)");
             Game consoleInputGame = gameOfThreeConsole.read();
             gameNotificationPort.notifyGameToTheOpponent(consoleInputGame, opponentName);
         }
