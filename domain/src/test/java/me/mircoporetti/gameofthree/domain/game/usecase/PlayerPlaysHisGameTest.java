@@ -2,6 +2,7 @@ package me.mircoporetti.gameofthree.domain.game.usecase;
 
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,6 +20,8 @@ class PlayerPlaysHisGameTest {
     */
 
     @Mock
+    private GameOfThreeConsole console;
+    @Mock
     private GameNotificationPort gameNotificationPort;
 
     private PlayerPlaysHisGame underTest;
@@ -26,7 +29,7 @@ class PlayerPlaysHisGameTest {
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerPlaysHisGame(gameNotificationPort);
+        underTest = new PlayerPlaysHisGame(gameNotificationPort, console);
     }
 
     @Test
@@ -70,5 +73,6 @@ class PlayerPlaysHisGameTest {
         underTest.invoke(opponentGame, "opponentName");
 
         verify(gameNotificationPort, never()).notifyGameToTheOpponent(any(), any());
+        verify(console).print("WIN!!!");
     }
 }

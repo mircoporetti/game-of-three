@@ -2,7 +2,9 @@ package me.mircoporetti.gameofthree.rabbitamqp;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.mircoporetti.gameofthree.console.SystemConsole;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
 import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameUseCase;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayerPlaysHisGame;
@@ -65,8 +67,13 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public PlayGameUseCase playerPlaysHisGame(GameNotificationPort gamePostman){
-        return new PlayerPlaysHisGame(gamePostman);
+    public GameOfThreeConsole console(){
+        return new SystemConsole();
+    }
+
+    @Bean
+    public PlayGameUseCase playerPlaysHisGame(GameNotificationPort gamePostman, GameOfThreeConsole console){
+        return new PlayerPlaysHisGame(gamePostman, console);
     }
 
     @Bean
