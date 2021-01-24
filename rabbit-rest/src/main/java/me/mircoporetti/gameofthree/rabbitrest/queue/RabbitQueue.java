@@ -6,14 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GameQueue implements Serializable {
+public class RabbitQueue implements Serializable {
 
     @JsonProperty(value = "messages")
     public Integer numberOfMessages;
 
     @Override
     public String toString() {
-        return "GameQueue{" +
+        return "RabbitQueue{" +
                 "numberOfMessages=" + numberOfMessages +
                 '}';
     }

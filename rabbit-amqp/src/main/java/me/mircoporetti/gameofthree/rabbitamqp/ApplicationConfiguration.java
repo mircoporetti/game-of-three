@@ -31,8 +31,6 @@ public class ApplicationConfiguration {
     @Value("${game-of-three.rabbitmq.queues-url}")
     private String rabbitUrl;
 
-
-
     @Bean
     public Queue playerQueue() {
         return new Queue(playerName, false);
@@ -64,10 +62,9 @@ public class ApplicationConfiguration {
         return new PlayerPlaysHisGame(gamePostman);
     }
 
-
     @Bean
     QueueRepositoryPort gameRepositoryPort(){
-        return new RabbitQueueRestRepository(rabbitUsername, rabbitPassword, rabbitUrl, playerName);
+        return new RabbitQueueRestRepository(rabbitUsername, rabbitPassword, rabbitUrl);
     }
 
     @Bean

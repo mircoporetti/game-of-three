@@ -15,16 +15,14 @@ public class RabbitQueueRestRepository  implements QueueRepositoryPort {
     private final String rabbitUsername;
     private final String rabbitPassword;
     private final String url;
-    private final String queueName;
 
-    public RabbitQueueRestRepository(String rabbitUsername, String rabbitPassword, String url, String queueName) {
+    public RabbitQueueRestRepository(String rabbitUsername, String rabbitPassword, String url) {
         this.rabbitUsername = rabbitUsername;
         this.rabbitPassword = rabbitPassword;
         this.url = url;
-        this.queueName = queueName;
     }
 
-    public Integer getNumberOfMessagesIn(String aQueueName) throws Exception {
+    public Integer getNumberOfMessagesIn(String queueName) throws Exception {
         HttpEntity<String> entity = new HttpEntity<>(createHeaders(rabbitUsername, rabbitPassword));
 
         RestTemplate restTemplate = new RestTemplate();
@@ -33,8 +31,8 @@ public class RabbitQueueRestRepository  implements QueueRepositoryPort {
         restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
 
         try{
-            ResponseEntity<GameQueue> result =
-                    restTemplate.exchange(url + "/" + queueName, HttpMethod.GET,entity, GameQueue.class);
+            ResponseEntity<RabbitQueue> result =
+                    restTemplate.exchange(url + "/" + queueName, HttpMethod.GET,entity, RabbitQueue.class);
             return Objects.requireNonNull(result.getBody()).numberOfMessages;
         }catch (HttpClientErrorException e){
             throw new Exception("Queue: " + queueName + "does not exist");
