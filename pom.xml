@@ -15,8 +15,9 @@
         <relativePath/>
     </parent>
     <modules>
-        <module>rabbitmq</module>
+        <module>rabbit-amqp</module>
         <module>domain</module>
+        <module>rabbit-rest</module>
     </modules>
 
     <properties>
