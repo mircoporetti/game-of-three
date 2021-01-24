@@ -19,12 +19,12 @@ class PlayerPlaysHisGameTest {
     @Mock
     private GameNotificationPort gameNotificationPort;
 
-    private PlayGameHisGame underTest;
+    private PlayerPlaysHisGame underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayGameHisGame(gameNotificationPort);
+        underTest = new PlayerPlaysHisGame(gameNotificationPort);
     }
 
     @Test

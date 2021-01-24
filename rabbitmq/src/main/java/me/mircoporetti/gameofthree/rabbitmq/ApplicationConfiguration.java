@@ -2,9 +2,7 @@ package me.mircoporetti.gameofthree.rabbitmq;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.mircoporetti.gameofthree.domain.game.GameNotificationPort;
-import me.mircoporetti.gameofthree.domain.game.PlayGameHisGame;
-import me.mircoporetti.gameofthree.domain.game.PlayGameUseCase;
+import me.mircoporetti.gameofthree.domain.game.*;
 import me.mircoporetti.gameofthree.rabbitmq.message.GameMessageConsumer;
 import me.mircoporetti.gameofthree.rabbitmq.message.GameMessageProducer;
 import me.mircoporetti.gameofthree.rabbitmq.message.RabbitMessageMapper;
@@ -35,14 +33,20 @@ public class ApplicationConfiguration {
     }
 
     @Bean
+    public Queue gameStartedQueue() {
+        return new Queue("startedQueue", false);
+    }
+
+
+    @Bean
     public ObjectMapper objectMapper(){
         return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
     }
 
     @Bean
-    public GameMessageConsumer gameMessageConsumer(RabbitMessageMapper rabbitMessageMapper, PlayGameUseCase playerPlaysHisGame){
-        return new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame);
+    public GameMessageConsumer gameMessageConsumer(RabbitMessageMapper rabbitMessageMapper, PlayGameUseCase playerPlaysHisGame,  StartToPlayUseCase playerStartsToPlay){
+        return new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame, playerStartsToPlay);
     }
 
     @Bean
@@ -52,7 +56,12 @@ public class ApplicationConfiguration {
 
     @Bean
     public PlayGameUseCase playerPlaysHisGame(GameNotificationPort gamePostman){
-        return new PlayGameHisGame(gamePostman);
+        return new PlayerPlaysHisGame(gamePostman);
+    }
+
+    @Bean
+    public StartToPlayUseCase playerStartsToPlay(){
+        return new PlayerStartsToPlay();
     }
 
     @Bean

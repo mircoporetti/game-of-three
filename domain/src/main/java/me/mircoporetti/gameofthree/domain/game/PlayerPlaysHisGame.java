@@ -1,10 +1,10 @@
 package me.mircoporetti.gameofthree.domain.game;
 
-public class PlayGameHisGame implements PlayGameUseCase {
+public class PlayerPlaysHisGame implements PlayGameUseCase {
 
     private final GameNotificationPort gameNotificationPort;
 
-    public PlayGameHisGame(GameNotificationPort gameNotificationPort) {
+    public PlayerPlaysHisGame(GameNotificationPort gameNotificationPort) {
         this.gameNotificationPort = gameNotificationPort;
     }
 

@@ -2,8 +2,8 @@ package me.mircoporetti.gameofthree.rabbitmq.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
-import me.mircoporetti.gameofthree.domain.game.PlayGameHisGame;
 import me.mircoporetti.gameofthree.domain.game.PlayGameUseCase;
+import me.mircoporetti.gameofthree.domain.game.StartToPlayUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,6 +19,8 @@ class GameMessageConsumerTest {
     @Mock
     private PlayGameUseCase playerPlaysHisGame;
     @Mock
+    private StartToPlayUseCase playerStartsToPlay;
+    @Mock
     private RabbitMessageMapper rabbitMessageMapper;
 
     private GameMessageConsumer underTest;
@@ -26,7 +28,7 @@ class GameMessageConsumerTest {
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame);
+        underTest = new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame, playerStartsToPlay);
     }
 
     @Test
@@ -35,7 +37,7 @@ class GameMessageConsumerTest {
 
         doReturn(new GameMessage(60)).when(rabbitMessageMapper).toGameOfThreeMessage(any());
 
-        underTest.listenToAPlay(anyGivenMessage);
+        underTest.consumeOpponentGame(anyGivenMessage);
 
         verify(playerPlaysHisGame).invoke(new Game(60));
     }
@@ -46,8 +48,16 @@ class GameMessageConsumerTest {
 
         doThrow(JsonProcessingException.class).when(rabbitMessageMapper).toGameOfThreeMessage(any());
 
-        underTest.listenToAPlay(anyGivenMessage);
+        underTest.consumeOpponentGame(anyGivenMessage);
 
         verify(playerPlaysHisGame, never()).invoke(any());
+    }
+
+    @Test
+    void playerStartToPlay() {
+
+        underTest.startToPlay();
+
+        verify(playerStartsToPlay).invoke();
     }
 }
