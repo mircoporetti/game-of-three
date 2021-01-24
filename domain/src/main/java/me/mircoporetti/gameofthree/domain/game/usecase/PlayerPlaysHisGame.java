@@ -18,9 +18,12 @@ public class PlayerPlaysHisGame implements PlayGameUseCase {
 
         Game nextGame = opponentGame.calculateNextGame();
 
-        if(nextGame.checkIfPlayable())
+        if(nextGame.checkIfPlayable()) {
             gameNotificationPort.notifyGameToTheOpponent(nextGame, opponentName);
-        else
-           gameOfThreeConsole.print("WIN!!!");
+        } else {
+            gameOfThreeConsole.print("WIN!!!");
+            Game consoleInputGame = gameOfThreeConsole.read();
+            gameNotificationPort.notifyGameToTheOpponent(consoleInputGame, opponentName);
+        }
     }
 }

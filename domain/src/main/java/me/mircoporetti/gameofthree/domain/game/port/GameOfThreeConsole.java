@@ -1,7 +1,9 @@
 package me.mircoporetti.gameofthree.domain.game.port;
 
+import me.mircoporetti.gameofthree.domain.game.Game;
+
 public interface GameOfThreeConsole {
-    String read();
+    Game read();
 
     void print(String line);
 }
