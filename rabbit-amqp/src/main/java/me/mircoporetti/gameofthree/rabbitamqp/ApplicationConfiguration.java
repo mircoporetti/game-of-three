@@ -12,6 +12,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -63,8 +65,17 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    QueueRepositoryPort gameRepositoryPort(){
-        return new RabbitQueueRestRepository(rabbitUsername, rabbitPassword, rabbitUrl);
+    public RestTemplate restTemplate(){
+        RestTemplate restTemplate = new RestTemplate();
+        DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
+        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
+        return restTemplate;
+    }
+
+    @Bean
+    QueueRepositoryPort gameRepositoryPort(RestTemplate restTemplate){
+        return new RabbitQueueRestRepository(restTemplate, rabbitUsername, rabbitPassword, rabbitUrl);
     }
 
     @Bean

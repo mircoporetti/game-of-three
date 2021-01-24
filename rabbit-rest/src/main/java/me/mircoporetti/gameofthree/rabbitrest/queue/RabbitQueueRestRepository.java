@@ -12,11 +12,13 @@ import java.util.Objects;
 
 public class RabbitQueueRestRepository  implements QueueRepositoryPort {
 
+    private final RestTemplate restTemplate;
     private final String rabbitUsername;
     private final String rabbitPassword;
     private final String url;
 
-    public RabbitQueueRestRepository(String rabbitUsername, String rabbitPassword, String url) {
+    public RabbitQueueRestRepository(RestTemplate restTemplate, String rabbitUsername, String rabbitPassword, String url) {
+        this.restTemplate = restTemplate;
         this.rabbitUsername = rabbitUsername;
         this.rabbitPassword = rabbitPassword;
         this.url = url;
@@ -25,14 +27,8 @@ public class RabbitQueueRestRepository  implements QueueRepositoryPort {
     public Integer getNumberOfMessagesIn(String queueName) throws Exception {
         HttpEntity<String> entity = new HttpEntity<>(createHeaders(rabbitUsername, rabbitPassword));
 
-        RestTemplate restTemplate = new RestTemplate();
-        DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
-        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
-
         try{
-            ResponseEntity<RabbitQueue> result =
-                    restTemplate.exchange(url + "/" + queueName, HttpMethod.GET,entity, RabbitQueue.class);
+            ResponseEntity<RabbitQueue> result = restTemplate.exchange(url + "/" + queueName, HttpMethod.GET,entity, RabbitQueue.class);
             return Objects.requireNonNull(result.getBody()).numberOfMessages;
         }catch (HttpClientErrorException e){
             throw new Exception("Queue: " + queueName + "does not exist");
@@ -49,5 +45,4 @@ public class RabbitQueueRestRepository  implements QueueRepositoryPort {
             set( "Authorization", authHeader );
         }};
     }
-
 }
