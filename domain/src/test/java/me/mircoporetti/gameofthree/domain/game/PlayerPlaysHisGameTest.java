@@ -33,9 +33,9 @@ class PlayerPlaysHisGameTest {
         Game opponentGame = aGame().withMove(9).build();
         Game expectedGameToBeNotified = aGame().withMove(3).build();
 
-        underTest.invoke(opponentGame);
+        underTest.invoke(opponentGame, "opponentName");
 
-        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified);
+        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
     }
 
     @Test
@@ -44,9 +44,9 @@ class PlayerPlaysHisGameTest {
         Game opponentGame = aGame().withMove(8).build();
         Game expectedGameToBeNotified = aGame().withMove(3).build();
 
-        underTest.invoke(opponentGame);
+        underTest.invoke(opponentGame, "opponentName");
 
-        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified);
+        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
     }
 
     @Test
@@ -55,9 +55,9 @@ class PlayerPlaysHisGameTest {
         Game opponentGame = aGame().withMove(10).build();
         Game expectedGameToBeNotified = aGame().withMove(3).build();
 
-        underTest.invoke(opponentGame);
+        underTest.invoke(opponentGame, "opponentName");
 
-        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified);
+        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
     }
 
     @Test
@@ -65,8 +65,8 @@ class PlayerPlaysHisGameTest {
 
         Game opponentGame = aGame().withMove(3).build();
 
-        underTest.invoke(opponentGame);
+        underTest.invoke(opponentGame, "opponentName");
 
-        verify(gameNotificationPort, never()).notifyGameToTheOpponent(any());
+        verify(gameNotificationPort, never()).notifyGameToTheOpponent(any(), any());
     }
 }

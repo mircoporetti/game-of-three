@@ -6,7 +6,7 @@ import me.mircoporetti.gameofthree.domain.game.*;
 import me.mircoporetti.gameofthree.rabbitamqp.message.GameMessageConsumer;
 import me.mircoporetti.gameofthree.rabbitamqp.message.GameMessageProducer;
 import me.mircoporetti.gameofthree.rabbitamqp.message.RabbitMessageMapper;
-import me.mircoporetti.gameofthree.rabbitrest.queue.RabbitQueueRepository;
+import me.mircoporetti.gameofthree.rabbitrest.queue.RabbitQueueRestRepository;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +22,16 @@ public class ApplicationConfiguration {
     @Value("${game-of-three.opponent-name}")
     private String opponentName;
 
+    @Value("${game-of-three.rabbitmq.username}")
+    private String rabbitUsername;
+
+    @Value("${game-of-three.rabbitmq.password}")
+    private String rabbitPassword;
+
+    @Value("${game-of-three.rabbitmq.queues-url}")
+    private String rabbitUrl;
+
+
 
     @Bean
     public Queue playerQueue() {
@@ -34,12 +44,6 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public Queue gameStartedQueue() {
-        return new Queue("startedQueue", false);
-    }
-
-
-    @Bean
     public ObjectMapper objectMapper(){
         return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
@@ -47,12 +51,12 @@ public class ApplicationConfiguration {
 
     @Bean
     public GameMessageConsumer gameMessageConsumer(RabbitMessageMapper rabbitMessageMapper, PlayGameUseCase playerPlaysHisGame,  StartToPlayUseCase playerStartsToPlay){
-        return new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame, playerStartsToPlay);
+        return new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame, playerStartsToPlay, playerName, opponentName);
     }
 
     @Bean
     public GameNotificationPort gameNotificationPort(RabbitMessageMapper rabbitMessageMapper, RabbitTemplate rabbitTemplate){
-        return new GameMessageProducer(rabbitMessageMapper, rabbitTemplate, opponentName);
+        return new GameMessageProducer(rabbitMessageMapper, rabbitTemplate);
     }
 
     @Bean
@@ -60,13 +64,15 @@ public class ApplicationConfiguration {
         return new PlayerPlaysHisGame(gamePostman);
     }
 
-    @Bean GameRepositoryPort gameRepositoryPort(){
-        return new RabbitQueueRepository();
+
+    @Bean
+    QueueRepositoryPort gameRepositoryPort(){
+        return new RabbitQueueRestRepository(rabbitUsername, rabbitPassword, rabbitUrl, playerName);
     }
 
     @Bean
-    public StartToPlayUseCase playerStartsToPlay(GameRepositoryPort gameRepositoryPort, GameNotificationPort gameNotificationPort){
-        return new PlayerStartsToPlay(gameRepositoryPort, gameNotificationPort);
+    public StartToPlayUseCase playerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort){
+        return new PlayerStartsToPlay(queueRepositoryPort, gameNotificationPort);
     }
 
     @Bean

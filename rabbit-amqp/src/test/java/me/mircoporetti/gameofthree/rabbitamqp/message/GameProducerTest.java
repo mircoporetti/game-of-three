@@ -19,12 +19,15 @@ class GameProducerTest {
     @Mock
     private RabbitTemplate rabbitTemplate;
 
+    private String opponentName;
+
     private GameMessageProducer underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new GameMessageProducer(mapper, rabbitTemplate, "anOpponentName");
+        opponentName = "anOpponentName";
+        underTest = new GameMessageProducer(mapper, rabbitTemplate);
     }
 
     @Test
@@ -33,7 +36,7 @@ class GameProducerTest {
         String messageToBeSent = "{\"move\":something}";
         doReturn(messageToBeSent).when(mapper).toJsonMessage(any());
 
-        underTest.notifyGameToTheOpponent(new Game(30));
+        underTest.notifyGameToTheOpponent(new Game(30),opponentName);
 
         verify(rabbitTemplate).convertAndSend("anOpponentName", messageToBeSent);
     }

@@ -11,7 +11,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class PlayerStartsToPlayTest {
 
     @Mock
-    private GameRepositoryPort gameRepositoryPort;
+    private QueueRepositoryPort queueRepositoryPort;
     @Mock
     private GameNotificationPort gameNotificationPort;
 
@@ -20,24 +20,26 @@ class PlayerStartsToPlayTest {
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerStartsToPlay(gameRepositoryPort, gameNotificationPort);
+        underTest = new PlayerStartsToPlay(queueRepositoryPort, gameNotificationPort);
     }
 
     @Test
     void playerIsTheFirstToPlay_playHisFirstRandomMove() {
-        doReturn(0).when(gameRepositoryPort).getNumberOfOpponentGamesFromMyQueue();
+        doReturn(0).when(queueRepositoryPort).getNumberOfMessagesIn(any());
 
-        underTest.invoke();
+        underTest.invoke("aPlayerName", "anOpponentName");
 
-        verify(gameNotificationPort).notifyGameToTheOpponent(any(Game.class));
+        verify(queueRepositoryPort).getNumberOfMessagesIn("aPlayerName");
+        verify(gameNotificationPort).notifyGameToTheOpponent(any(), eq("anOpponentName"));
     }
 
     @Test
     void gameAlreadyStarted_doNothing() {
-        doReturn(1).when(gameRepositoryPort).getNumberOfOpponentGamesFromMyQueue();
+        doReturn(1).when(queueRepositoryPort).getNumberOfMessagesIn(any());
 
-        underTest.invoke();
+        underTest.invoke("aPlayerName", "anOpponentName");
 
-        verify(gameNotificationPort, never()).notifyGameToTheOpponent(any(Game.class));
+        verify(queueRepositoryPort).getNumberOfMessagesIn("aPlayerName");
+        verify(gameNotificationPort, never()).notifyGameToTheOpponent(any(Game.class), any());
     }
 }

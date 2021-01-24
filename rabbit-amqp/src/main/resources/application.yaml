@@ -1,3 +1,7 @@
 game-of-three:
   player-name: player1
   opponent-name: player2
+  rabbitmq:
+    username: guest
+    password: guest
+    queues-url: http://localhost:15672/api/queues/%2F

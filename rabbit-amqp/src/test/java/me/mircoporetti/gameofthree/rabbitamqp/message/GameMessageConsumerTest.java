@@ -23,12 +23,17 @@ class GameMessageConsumerTest {
     @Mock
     private RabbitMessageMapper rabbitMessageMapper;
 
+    private String playerName;
+    private String opponentName;
+
     private GameMessageConsumer underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame, playerStartsToPlay);
+        playerName = "aName";
+        opponentName = "anOpponentNAme";
+        underTest = new GameMessageConsumer(rabbitMessageMapper, playerPlaysHisGame, playerStartsToPlay, playerName, opponentName);
     }
 
     @Test
@@ -39,7 +44,7 @@ class GameMessageConsumerTest {
 
         underTest.consumeOpponentGame(anyGivenMessage);
 
-        verify(playerPlaysHisGame).invoke(new Game(60));
+        verify(playerPlaysHisGame).invoke(new Game(60),opponentName);
     }
 
     @Test
@@ -50,7 +55,7 @@ class GameMessageConsumerTest {
 
         underTest.consumeOpponentGame(anyGivenMessage);
 
-        verify(playerPlaysHisGame, never()).invoke(any());
+        verify(playerPlaysHisGame, never()).invoke(any(), any());
     }
 
     @Test
@@ -58,6 +63,6 @@ class GameMessageConsumerTest {
 
         underTest.startToPlay();
 
-        verify(playerStartsToPlay).invoke();
+        verify(playerStartsToPlay).invoke(playerName, opponentName);
     }
 }

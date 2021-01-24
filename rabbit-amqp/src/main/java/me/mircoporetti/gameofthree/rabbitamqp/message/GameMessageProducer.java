@@ -9,16 +9,14 @@ public class GameMessageProducer implements GameNotificationPort {
 
     private final RabbitMessageMapper mapper;
     private final RabbitTemplate rabbitTemplate;
-    private final String opponentName;
 
-    public GameMessageProducer(RabbitMessageMapper mapper, RabbitTemplate rabbitTemplate, String opponentName) {
+    public GameMessageProducer(RabbitMessageMapper mapper, RabbitTemplate rabbitTemplate) {
         this.mapper = mapper;
         this.rabbitTemplate = rabbitTemplate;
-        this.opponentName = opponentName;
     }
 
     @Override
-    public void notifyGameToTheOpponent(Game gameToBeNotified) {
+    public void notifyGameToTheOpponent(Game gameToBeNotified, String opponentName) {
         System.out.println("Game to be notified: " + gameToBeNotified);
         try {
             String jsonGame = mapper.toJsonMessage(gameToBeNotified);

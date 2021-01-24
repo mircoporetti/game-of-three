@@ -8,11 +8,11 @@ public class PlayerPlaysHisGame implements PlayGameUseCase {
         this.gameNotificationPort = gameNotificationPort;
     }
 
-    public void invoke(Game opponentGame) {
+    public void invoke(Game opponentGame, String opponentName) {
 
         Game nextGame = opponentGame.calculateNextGame();
 
         if(nextGame.checkIfPlayable())
-            gameNotificationPort.notifyGameToTheOpponent(nextGame);
+            gameNotificationPort.notifyGameToTheOpponent(nextGame, opponentName);
     }
 }

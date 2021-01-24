@@ -4,22 +4,22 @@ import java.util.Random;
 
 public class PlayerStartsToPlay implements StartToPlayUseCase {
 
-    private final GameRepositoryPort gameRepositoryPort;
+    private final QueueRepositoryPort queueRepositoryPort;
     private final GameNotificationPort gameNotificationPort;
 
-    public PlayerStartsToPlay(GameRepositoryPort gameRepositoryPort, GameNotificationPort gameNotificationPort) {
-        this.gameRepositoryPort = gameRepositoryPort;
+    public PlayerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort) {
+        this.queueRepositoryPort = queueRepositoryPort;
         this.gameNotificationPort = gameNotificationPort;
     }
 
     @Override
-    public void invoke() {
-        Integer numberOfOpponentGames = gameRepositoryPort.getNumberOfOpponentGamesFromMyQueue();
+    public void invoke(String playerName, String opponentName) {
+        Integer numberOfOpponentGames = queueRepositoryPort.getNumberOfMessagesIn(playerName);
 
         if(numberOfOpponentGames == 0) {
             Random random = new Random();
             int randomMove = Math.abs(random.nextInt());
-            gameNotificationPort.notifyGameToTheOpponent(new Game(randomMove));
+            gameNotificationPort.notifyGameToTheOpponent(new Game(randomMove), opponentName);
         }
     }
 }
