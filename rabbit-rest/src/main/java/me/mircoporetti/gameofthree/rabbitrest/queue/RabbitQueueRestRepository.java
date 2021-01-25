@@ -34,7 +34,7 @@ public class RabbitQueueRestRepository  implements QueueRepositoryPort {
             ResponseEntity<RabbitQueue> result = restTemplate.exchange(url + "/" + queueName, HttpMethod.GET,entity, RabbitQueue.class);
             return Objects.requireNonNull(result.getBody()).numberOfMessages;
         }catch (HttpClientErrorException e){
-            throw new QueueNotExistsException("Queue: " + queueName + " does not exists yet");
+            throw new QueueNotExistsException(e.getMessage());
         }
     }
 

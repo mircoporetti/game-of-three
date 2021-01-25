@@ -32,7 +32,7 @@ public class PlayerStartsToPlay implements StartToPlayUseCase {
                 gameNotificationPort.notifyGameToTheOpponent(new Game(randomMove), opponentName);
             }
         } catch (Exception e) {
-            console.print(e.getMessage());
+            console.print("Waiting for the opponent...");
         }
 
     }

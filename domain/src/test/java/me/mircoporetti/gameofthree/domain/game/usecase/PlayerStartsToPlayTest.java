@@ -53,14 +53,14 @@ class PlayerStartsToPlayTest {
     }
 
     @Test
-    void queueNotExists() throws Exception {
+    void queueDontExistsYet() throws Exception {
         doThrow(QueueNotExistsException.class).when(queueRepositoryPort).getNumberOfMessagesIn(any());
 
         underTest.invoke("aPlayerName", "anOpponentName");
 
         verify(queueRepositoryPort).getNumberOfMessagesIn("aPlayerName");
         verify(gameNotificationPort, never()).notifyGameToTheOpponent(any(Game.class), any());
-        verify(console).print(any());
+        verify(console).print("Waiting for the opponent...");
 
     }
 }
