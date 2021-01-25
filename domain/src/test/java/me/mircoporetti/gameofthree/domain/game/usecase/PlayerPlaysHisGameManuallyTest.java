@@ -11,7 +11,7 @@ import static me.mircoporetti.gameofthree.domain.game.GameBuilder.aGame;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class PlayerPlaysHisGameAutomaticallyManuallyTest {
+class PlayerPlaysHisGameManuallyTest {
 
     @Mock
     private GameOfThreeConsole console;
