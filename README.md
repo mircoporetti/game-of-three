@@ -5,7 +5,7 @@
     Start the Game executing the following commands:
 
     1) Build rabbitmq container from docker folder:
-    docker-compose -f rabbit-compose.yml up -d
+    - docker-compose -f rabbit-compose.yml up -d
 
     2) Run Player1 using jar file placed in rabbit-amqp/target (example of player in auto mode)::
     - mvn clean install
