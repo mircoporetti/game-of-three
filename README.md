@@ -7,12 +7,13 @@
     1) Build rabbitmq container from docker folder:
     docker-compose -f rabbit-compose.yml up -d
 
-    2) Run Player1 using jar file placed in project root or mvn clean install and cd rabbit-amqp/target
-       folder to find the jar (example of player in auto mode):
-    java -jar game-of-three.jar --game-of-three.player-name="Player1" --game-of-three.opponent-name="Player2" --game-of-three.mode=AUTO
+    2) Run Player1 using jar file placed in rabbit-amqp/target (example of player in auto mode)::
+    - mvn clean install
+    - cd rabbit-amqp/target
+    - java -jar game-of-three.jar --game-of-three.player-name="Player1" --game-of-three.opponent-name="Player2" --game-of-three.mode=AUTO
     
     3) Run Player2 (example of player in manual mode):
-    java -jar game-of-three.jar --game-of-three.player-name="Player2" --game-of-three.opponent-name="Player1"  --server.port=8081 --game-of-three.mode=MANUAL
+    - java -jar game-of-three.jar --game-of-three.player-name="Player2" --game-of-three.opponent-name="Player1"  --server.port=8081 --game-of-three.mode=MANUAL
 
 <h3>Notes</h3>
     
