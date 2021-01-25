@@ -72,10 +72,7 @@ class PlayerPlaysHisGameTest {
 
         underTest.invoke(opponentGame, "opponentName");
 
-        verify(gameNotificationPort, never()).notifyGameToTheOpponent(aGame().withMove(1).build(), "opponentGame");
-        verify(console).print("WIN!!! Congrats, pick another one! :)");
-        verify(console).read();
-        verify(gameNotificationPort).notifyGameToTheOpponent(userInputForRestarting, "opponentName");
-
+        verify(gameNotificationPort, never()).notifyGameToTheOpponent(any(), any());
+        verify(console).print("WIN!!!");
     }
 }
