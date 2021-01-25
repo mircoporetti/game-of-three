@@ -1,6 +1,6 @@
 <h2>The Game of Three</h2>
 
-<h3>INSTRUCTIONS</h3>
+<h3>Instructions</h3>
 
     Start the Game executing the following commands:
 
@@ -19,4 +19,8 @@
     - The player name and the opponend name have to be the opposite for each player;
     - The game mode can be MANUAL(The player will play manually his/her games) or AUTO(The player will play automatically her/his turn).
 
-<h2>Have a good game :)</h2>
+<h3>Have a good game :)</h3>
+
+<h2>To Do</h2>
+
+    - A docker-compose with rabbitmq and both player in it
