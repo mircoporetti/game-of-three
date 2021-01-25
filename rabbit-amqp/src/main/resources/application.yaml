@@ -1,3 +1,7 @@
+logging:
+  level:
+    root: error
+
 game-of-three:
   mode: AUTO
   player-name: Player1
