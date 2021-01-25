@@ -2,6 +2,7 @@ package me.mircoporetti.gameofthree.rabbitamqp.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameManuallyUseCase;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameUseCase;
 import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,8 @@ class RabbitGameConsumerTest {
     @Mock
     private PlayGameUseCase playerPlaysHisGame;
     @Mock
+    private PlayGameManuallyUseCase playerPlaysHisGameManually;
+    @Mock
     private StartToPlayUseCase playerStartsToPlay;
     @Mock
     private RabbitGameMapper rabbitGameMapper;
@@ -33,11 +36,11 @@ class RabbitGameConsumerTest {
         initMocks(this);
         playerName = "aName";
         opponentName = "anOpponentNAme";
-        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerStartsToPlay, playerName, opponentName);
+        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, "AUTO");
     }
 
     @Test
-    void receiveAMessage_playYourTurn() throws JsonProcessingException {
+    void receiveAMessage_playYourAutomaticTurn() throws JsonProcessingException {
         Message anyGivenMessage = new Message("".getBytes(), new MessageProperties());
 
         doReturn(new RabbitGame(60)).when(rabbitGameMapper).toGameOfThreeMessage(any());
@@ -45,6 +48,20 @@ class RabbitGameConsumerTest {
         underTest.consumeOpponentGame(anyGivenMessage);
 
         verify(playerPlaysHisGame).invoke(new Game(60),opponentName);
+        verify(playerPlaysHisGameManually, never()).invoke(new Game(60),opponentName);
+    }
+
+    @Test
+    void receiveAMessage_playYourManualTurn() throws JsonProcessingException {
+        Message anyGivenMessage = new Message("".getBytes(), new MessageProperties());
+
+        doReturn(new RabbitGame(60)).when(rabbitGameMapper).toGameOfThreeMessage(any());
+
+        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, "MANUAL");
+        underTest.consumeOpponentGame(anyGivenMessage);
+
+        verify(playerPlaysHisGame, never()).invoke(new Game(60),opponentName);
+        verify(playerPlaysHisGameManually).invoke(new Game(60),opponentName);
     }
 
     @Test

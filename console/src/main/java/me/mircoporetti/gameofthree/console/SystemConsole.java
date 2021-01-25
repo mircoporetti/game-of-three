@@ -1,5 +1,6 @@
 package me.mircoporetti.gameofthree.console;
 
+import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
 
 import java.io.BufferedReader;
@@ -14,7 +15,7 @@ public class SystemConsole implements GameOfThreeConsole {
     }
 
     @Override
-    public String read() {
+    public Integer readGameOperand() {
         String line = "";
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -22,6 +23,6 @@ public class SystemConsole implements GameOfThreeConsole {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return line;
+        return Integer.parseInt(line);
     }
 }

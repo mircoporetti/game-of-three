@@ -26,8 +26,16 @@ public class Game {
         return new Game(nextMove);
     }
 
+    public Game calculateManualNextGame(Integer operand) {
+        return new Game((move + operand) / 3);
+    }
+
     private void printGameSteps(int nextMove, int i, Integer move) {
         System.out.println("Added " + i + " to " + move + " ==> " + (move + i) + " / " + 3 + " = " + nextMove);
+    }
+
+    public boolean validateOperandForNextGame(Integer operand) {
+        return (operand >= -1 && operand <= 1) && isDivisibleByThree(move + operand);
     }
 
     public boolean checkIfPlayable() {

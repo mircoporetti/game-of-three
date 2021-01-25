@@ -1,7 +1,7 @@
 package me.mircoporetti.gameofthree.domain.game.port;
 
 public interface GameOfThreeConsole {
-    String read();
+    Integer readGameOperand();
 
     void print(String line);
 }

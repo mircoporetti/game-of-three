@@ -6,10 +6,7 @@ import me.mircoporetti.gameofthree.console.SystemConsole;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
 import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
 import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
-import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameUseCase;
-import me.mircoporetti.gameofthree.domain.game.usecase.PlayerPlaysHisGame;
-import me.mircoporetti.gameofthree.domain.game.usecase.PlayerStartsToPlay;
-import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.*;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameConsumer;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameProducer;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameMapper;
@@ -31,6 +28,9 @@ public class ApplicationConfiguration {
     @Value("${game-of-three.opponent-name}")
     private String opponentName;
 
+    @Value("${game-of-three.mode}")
+    private String gameOfThreeMode;
+
     @Value("${game-of-three.rabbitmq.username}")
     private String rabbitUsername;
 
@@ -39,6 +39,7 @@ public class ApplicationConfiguration {
 
     @Value("${game-of-three.rabbitmq.queues-url}")
     private String rabbitUrl;
+
 
     @Bean
     public Queue playerQueue() {
@@ -57,8 +58,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameUseCase playerPlaysHisGame, StartToPlayUseCase playerStartsToPlay){
-        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerStartsToPlay, playerName, opponentName);
+    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameUseCase playerPlaysHisGame,PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay){
+        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, gameOfThreeMode);
     }
 
     @Bean
@@ -74,6 +75,11 @@ public class ApplicationConfiguration {
     @Bean
     public PlayGameUseCase playerPlaysHisGame(GameNotificationPort gamePostman, GameOfThreeConsole console){
         return new PlayerPlaysHisGame(gamePostman, console);
+    }
+
+    @Bean
+    public PlayGameManuallyUseCase playerPlaysHisGameManually(GameNotificationPort gamePostman, GameOfThreeConsole console){
+        return new PlayerPlaysHisGameManually(gamePostman, console);
     }
 
     @Bean

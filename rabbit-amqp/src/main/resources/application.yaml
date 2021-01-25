@@ -1,6 +1,7 @@
 game-of-three:
-  player-name: player1
-  opponent-name: player2
+  mode: AUTO
+  player-name: Player1
+  opponent-name: Player2
   rabbitmq:
     username: guest
     password: guest
