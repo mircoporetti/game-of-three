@@ -29,7 +29,7 @@ public class ApplicationConfiguration {
     private String opponentName;
 
     @Value("${game-of-three.mode}")
-    private String gameOfThreeMode;
+    private String mode;
 
     @Value("${game-of-three.rabbitmq.username}")
     private String rabbitUsername;
@@ -52,24 +52,38 @@ public class ApplicationConfiguration {
     }
 
     @Bean
+    public GameOfThreeConsole console(){
+        return new SystemConsole();
+    }
+
+    @Bean
     public ObjectMapper objectMapper(){
         return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
     }
 
     @Bean
-    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay){
-        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, gameOfThreeMode);
+    public RestTemplate restTemplate(){
+        RestTemplate restTemplate = new RestTemplate();
+        DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
+        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
+        return restTemplate;
+    }
+
+    @Bean PlayerMode gameOfThreeMode(){
+        if (mode.equals("MANUAL")) return PlayerMode.MANUAL;
+        else return PlayerMode.AUTO;
     }
 
     @Bean
-    public GameNotificationPort gameNotificationPort(RabbitGameMapper rabbitGameMapper, RabbitTemplate rabbitTemplate){
-        return new RabbitGameProducer(rabbitGameMapper, rabbitTemplate);
+    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay, PlayerMode playerMode){
+        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, playerMode);
     }
 
     @Bean
-    public GameOfThreeConsole console(){
-        return new SystemConsole();
+    public StartToPlayUseCase playerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort){
+        return new PlayerStartsToPlay(queueRepositoryPort, gameNotificationPort);
     }
 
     @Bean
@@ -83,22 +97,13 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public RestTemplate restTemplate(){
-        RestTemplate restTemplate = new RestTemplate();
-        DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
-        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
-        return restTemplate;
-    }
-
-    @Bean
     QueueRepositoryPort gameRepositoryPort(RestTemplate restTemplate){
         return new RabbitQueueRestRepository(restTemplate, rabbitUsername, rabbitPassword, rabbitUrl);
     }
 
     @Bean
-    public StartToPlayUseCase playerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort){
-        return new PlayerStartsToPlay(queueRepositoryPort, gameNotificationPort);
+    public GameNotificationPort gameNotificationPort(RabbitGameMapper rabbitGameMapper, RabbitTemplate rabbitTemplate){
+        return new RabbitGameProducer(rabbitGameMapper, rabbitTemplate);
     }
 
     @Bean
