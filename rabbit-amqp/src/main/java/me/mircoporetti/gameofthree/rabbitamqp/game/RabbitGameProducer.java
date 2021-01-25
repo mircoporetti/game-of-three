@@ -16,10 +16,10 @@ public class RabbitGameProducer implements GameNotificationPort {
     }
 
     @Override
-    public void notifyGameToTheOpponent(Game gameToBeNotified, String opponentName) {
+    public void notifyGameToTheOpponent(Game gameToBeNotified, String opponentQueue) {
         try {
             String jsonGame = mapper.toJsonMessage(gameToBeNotified);
-            rabbitTemplate.convertAndSend(opponentName, jsonGame);
+            rabbitTemplate.convertAndSend(opponentQueue, jsonGame);
         } catch (JsonProcessingException e) {
             System.out.println("There was a problem during the conversion of: " + gameToBeNotified);
             e.printStackTrace();

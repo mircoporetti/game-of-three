@@ -10,6 +10,8 @@ import me.mircoporetti.gameofthree.domain.game.usecase.*;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameConsumer;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameProducer;
 import me.mircoporetti.gameofthree.rabbitamqp.game.RabbitGameMapper;
+import me.mircoporetti.gameofthree.rabbitamqp.player.Player;
+import me.mircoporetti.gameofthree.rabbitamqp.player.PlayerMode;
 import me.mircoporetti.gameofthree.rabbitrest.queue.RabbitQueueRestRepository;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -78,14 +80,14 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public PlayerConfiguration playerGameConfiguration(PlayerMode playerMode){
-        return new PlayerConfiguration(playerName, opponentName, playerMode);
+    public Player playerGameConfiguration(PlayerMode playerMode, StartToPlayUseCase startToPlayUseCase){
+        return new Player(playerName, opponentName, playerMode, startToPlayUseCase);
     }
 
 
     @Bean
-    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay, PlayerConfiguration playerConfiguration){
-        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerConfiguration);
+    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay, Player player){
+        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, player);
     }
 
     @Bean
