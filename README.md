@@ -24,4 +24,4 @@
 
 <h2>To Do</h2>
 
-    - A docker-compose with rabbitmq and both player in it
+    - Single docker-compose with rabbitmq and players together
