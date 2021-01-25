@@ -24,12 +24,14 @@ public class PlayerPlaysHisGameManually implements PlayGameManuallyUseCase {
         do{
             operand = gameOfThreeConsole.readGameOperand();
             validOperand = opponentGame.validateOperandForNextGame(operand);
-            if(!validOperand) gameOfThreeConsole.print("Ops, the input you were wrong! Please retry...");
+            if(!validOperand) gameOfThreeConsole.print("Ops, you were wrong! Please retry...");
         } while(!validOperand);
 
         nextGame = opponentGame.calculateManualNextGame(operand);
-        if(nextGame.checkIfPlayable())
+        if(nextGame.checkIfPlayable()) {
             gameNotificationPort.notifyGameToTheOpponent(nextGame, opponentName);
+            gameOfThreeConsole.print("Great!");
+        }
         else
             gameOfThreeConsole.print("WIN!!!");
     }

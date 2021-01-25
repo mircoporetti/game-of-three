@@ -39,6 +39,7 @@ class PlayerPlaysHisGameAutomaticallyManuallyTest {
         verify(console).print("Come on! :) Pick an operand {-1,0,1} to make 9 divisible by 3...");
         verify(console).readGameOperand();
         verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
+        verify(console).print("Great!");
     }
 
     @Test
@@ -52,9 +53,11 @@ class PlayerPlaysHisGameAutomaticallyManuallyTest {
         underTest.invoke(opponentGame, "opponentName");
 
         verify(console).print("Come on! :) Pick an operand {-1,0,1} to make 9 divisible by 3...");
-        verify(console).print("Ops, the input you were wrong! Please retry...");
+        verify(console).print("Ops, you were wrong! Please retry...");
         verify(console, times(2)).readGameOperand();
         verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
+        verify(console).print("Great!");
+
     }
 
     @Test
