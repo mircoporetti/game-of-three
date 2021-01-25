@@ -71,14 +71,21 @@ public class ApplicationConfiguration {
         return restTemplate;
     }
 
-    @Bean PlayerMode gameOfThreeMode(){
+    @Bean
+    public PlayerMode gameOfThreeMode(){
         if (mode.equals("MANUAL")) return PlayerMode.MANUAL;
         else return PlayerMode.AUTO;
     }
 
     @Bean
-    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay, PlayerMode playerMode){
-        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, playerMode);
+    public PlayerConfiguration playerGameConfiguration(PlayerMode playerMode){
+        return new PlayerConfiguration(playerName, opponentName, playerMode);
+    }
+
+
+    @Bean
+    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay, PlayerConfiguration playerConfiguration){
+        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerConfiguration);
     }
 
     @Bean

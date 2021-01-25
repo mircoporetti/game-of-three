@@ -5,6 +5,7 @@ import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameManuallyUseCase;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameAutomaticallyUseCase;
 import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
+import me.mircoporetti.gameofthree.rabbitamqp.PlayerConfiguration;
 import me.mircoporetti.gameofthree.rabbitamqp.PlayerMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ class RabbitGameConsumerTest {
         initMocks(this);
         playerName = "aName";
         opponentName = "anOpponentNAme";
-        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, PlayerMode.AUTO);
+        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, new PlayerConfiguration(playerName, opponentName, PlayerMode.AUTO));
     }
 
     @Test
@@ -58,7 +59,7 @@ class RabbitGameConsumerTest {
 
         doReturn(new RabbitGame(60)).when(rabbitGameMapper).toGameOfThreeMessage(any());
 
-        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, PlayerMode.MANUAL);
+        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, new PlayerConfiguration(playerName, opponentName, PlayerMode.MANUAL));
         underTest.consumeOpponentGame(anyGivenMessage);
 
         verify(playerPlaysHisGame, never()).invoke(new Game(60),opponentName);
