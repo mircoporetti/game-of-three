@@ -11,65 +11,68 @@ import static me.mircoporetti.gameofthree.domain.game.GameBuilder.aGame;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class PlayerPlaysHisGameManuallyTest {
+class PlayerPlaysHisGameAutomaticallyTest {
+
+    /*
+    I previously separated the Game domain model's tests from the use case's tests.
+    Then I found it not very useful in this specific case and in my opinion it had no a real value.
+    I decided to test the business logic here.
+    */
 
     @Mock
     private GameOfThreeConsole console;
     @Mock
     private GameNotificationPort gameNotificationPort;
 
-    private PlayGameManuallyUseCase underTest;
+    private PlayerPlaysHisGameAutomatically underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerPlaysHisGameManually(gameNotificationPort, console);
+        underTest = new PlayerPlaysHisGameAutomatically(gameNotificationPort, console);
     }
 
     @Test
-    void playANotFinalTurn_rightInput() {
+    void playANotFinalTurn_moveAlreadyDivisibleByThree() {
 
         Game opponentGame = aGame().withMove(9).build();
         Game expectedGameToBeNotified = aGame().withMove(3).build();
 
-        doReturn(0).when(console).readGameOperand();
-
         underTest.invoke(opponentGame, "opponentName");
 
-        verify(console).print("Come on! :) Pick an operand {-1,0,1} to make 9 divisible by 3...");
-        verify(console).readGameOperand();
         verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
     }
 
     @Test
-    void playANotFinalTurn_wrongInput() {
+    void playANotFinalTurn_movePlusOneDivisibleByThree() {
 
-        Game opponentGame = aGame().withMove(9).build();
+        Game opponentGame = aGame().withMove(8).build();
         Game expectedGameToBeNotified = aGame().withMove(3).build();
 
-        doReturn(1).doReturn(0).when(console).readGameOperand();
-
         underTest.invoke(opponentGame, "opponentName");
 
-        verify(console).print("Come on! :) Pick an operand {-1,0,1} to make 9 divisible by 3...");
-        verify(console).print("Ops, the input you were wrong! Please retry...");
-        verify(console, times(2)).readGameOperand();
         verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
     }
 
     @Test
-    void playAFinalTurn_rightInput() {
+    void playANotFinalTurn_moveMinusOneDivisibleByThree() {
 
-        Game opponentGame = aGame().withMove(4).build();
-        Game expectedGameToBeNotified = aGame().withMove(1).build();
-
-        doReturn(-1).when(console).readGameOperand();
+        Game opponentGame = aGame().withMove(10).build();
+        Game expectedGameToBeNotified = aGame().withMove(3).build();
 
         underTest.invoke(opponentGame, "opponentName");
 
-        verify(console).print("Come on! :) Pick an operand {-1,0,1} to make 4 divisible by 3...");
-        verify(console).readGameOperand();
-        verify(gameNotificationPort, never()).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
+        verify(gameNotificationPort).notifyGameToTheOpponent(expectedGameToBeNotified, "opponentName");
+    }
+
+    @Test
+    void playTheFinalTurn() {
+
+        Game opponentGame = aGame().withMove(3).build();
+
+        underTest.invoke(opponentGame, "opponentName");
+
+        verify(gameNotificationPort, never()).notifyGameToTheOpponent(any(), any());
         verify(console).print("WIN!!!");
     }
 }

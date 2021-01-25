@@ -3,7 +3,7 @@ package me.mircoporetti.gameofthree.rabbitamqp.game;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameManuallyUseCase;
-import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameAutomaticallyUseCase;
 import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class RabbitGameConsumerTest {
 
     @Mock
-    private PlayGameUseCase playerPlaysHisGame;
+    private PlayGameAutomaticallyUseCase playerPlaysHisGame;
     @Mock
     private PlayGameManuallyUseCase playerPlaysHisGameManually;
     @Mock

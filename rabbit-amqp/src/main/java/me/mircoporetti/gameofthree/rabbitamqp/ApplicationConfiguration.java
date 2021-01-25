@@ -58,7 +58,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameUseCase playerPlaysHisGame,PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay){
+    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay){
         return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, playerStartsToPlay, playerName, opponentName, gameOfThreeMode);
     }
 
@@ -73,8 +73,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public PlayGameUseCase playerPlaysHisGame(GameNotificationPort gamePostman, GameOfThreeConsole console){
-        return new PlayerPlaysHisGame(gamePostman, console);
+    public PlayGameAutomaticallyUseCase playerPlaysHisGameAutomatically(GameNotificationPort gamePostman, GameOfThreeConsole console){
+        return new PlayerPlaysHisGameAutomatically(gamePostman, console);
     }
 
     @Bean

@@ -3,7 +3,7 @@ package me.mircoporetti.gameofthree.rabbitamqp.game;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameManuallyUseCase;
-import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameAutomaticallyUseCase;
 import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,14 +13,14 @@ import javax.annotation.PostConstruct;
 public class RabbitGameConsumer {
 
     private final RabbitGameMapper rabbitGameMapper;
-    private final PlayGameUseCase playerPlaysHisGame;
+    private final PlayGameAutomaticallyUseCase playerPlaysHisGame;
     private final PlayGameManuallyUseCase playGameManuallyUseCase;
     private final StartToPlayUseCase playerStartsToPlay;
     private final String playerName;
     private final String opponentName;
     private final String gameOfThreeMode;
 
-    public RabbitGameConsumer(RabbitGameMapper rabbitGameMapper, PlayGameUseCase playerPlaysHisGame, PlayGameManuallyUseCase playGameManuallyUseCase, StartToPlayUseCase playerStartsToPlay, String playerName, String opponentName, String gameOfThreeMode) {
+    public RabbitGameConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playGameManuallyUseCase, StartToPlayUseCase playerStartsToPlay, String playerName, String opponentName, String gameOfThreeMode) {
         this.rabbitGameMapper = rabbitGameMapper;
         this.playerPlaysHisGame = playerPlaysHisGame;
         this.playGameManuallyUseCase = playGameManuallyUseCase;
