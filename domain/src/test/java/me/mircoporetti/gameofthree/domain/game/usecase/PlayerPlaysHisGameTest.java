@@ -1,7 +1,6 @@
 package me.mircoporetti.gameofthree.domain.game.usecase;
 
 import me.mircoporetti.gameofthree.domain.game.Game;
-import me.mircoporetti.gameofthree.domain.game.GameBuilder;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
 import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +34,7 @@ class PlayerPlaysHisGameTest {
 
     @Test
     void playANotFinalTurn_moveAlreadyDivisibleByThree() {
+
         Game opponentGame = aGame().withMove(9).build();
         Game expectedGameToBeNotified = aGame().withMove(3).build();
 
@@ -45,6 +45,7 @@ class PlayerPlaysHisGameTest {
 
     @Test
     void playANotFinalTurn_movePlusOneDivisibleByThree() {
+
         Game opponentGame = aGame().withMove(8).build();
         Game expectedGameToBeNotified = aGame().withMove(3).build();
 
@@ -55,6 +56,7 @@ class PlayerPlaysHisGameTest {
 
     @Test
     void playANotFinalTurn_moveMinusOneDivisibleByThree() {
+
         Game opponentGame = aGame().withMove(10).build();
         Game expectedGameToBeNotified = aGame().withMove(3).build();
 
@@ -65,10 +67,8 @@ class PlayerPlaysHisGameTest {
 
     @Test
     void playTheFinalTurn() {
-        Game opponentGame = aGame().withMove(3).build();
-        Game userInputForRestarting = aGame().withMove(9).build();
 
-        doReturn(userInputForRestarting).when(console).read();
+        Game opponentGame = aGame().withMove(3).build();
 
         underTest.invoke(opponentGame, "opponentName");
 
