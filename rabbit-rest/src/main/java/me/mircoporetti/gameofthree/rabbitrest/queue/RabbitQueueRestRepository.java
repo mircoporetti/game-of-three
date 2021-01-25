@@ -1,5 +1,6 @@
 package me.mircoporetti.gameofthree.rabbitrest.queue;
 
+import me.mircoporetti.gameofthree.domain.game.exception.QueueNotExistsException;
 import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpEntity;
@@ -26,14 +27,14 @@ public class RabbitQueueRestRepository  implements QueueRepositoryPort {
         this.url = url;
     }
 
-    public Integer getNumberOfMessagesIn(String queueName) throws Exception {
+    public Integer getNumberOfMessagesIn(String queueName) {
         HttpEntity<String> entity = new HttpEntity<>(createHeaders(rabbitUsername, rabbitPassword));
 
         try{
             ResponseEntity<RabbitQueue> result = restTemplate.exchange(url + "/" + queueName, HttpMethod.GET,entity, RabbitQueue.class);
             return Objects.requireNonNull(result.getBody()).numberOfMessages;
         }catch (HttpClientErrorException e){
-            throw new Exception("Queue: " + queueName + "does not exist");
+            throw new QueueNotExistsException("Queue: " + queueName + " does not exists yet");
         }
     }
 

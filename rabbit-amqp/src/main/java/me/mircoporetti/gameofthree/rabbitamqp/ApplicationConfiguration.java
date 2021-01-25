@@ -91,8 +91,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public StartToPlayUseCase playerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort){
-        return new PlayerStartsToPlay(queueRepositoryPort, gameNotificationPort);
+    public StartToPlayUseCase playerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort, GameOfThreeConsole console){
+        return new PlayerStartsToPlay(queueRepositoryPort, gameNotificationPort, console);
     }
 
     @Bean

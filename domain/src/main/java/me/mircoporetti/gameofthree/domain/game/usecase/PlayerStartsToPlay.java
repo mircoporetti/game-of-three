@@ -2,6 +2,7 @@ package me.mircoporetti.gameofthree.domain.game.usecase;
 
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
 import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
 
 import java.util.Random;
@@ -10,10 +11,12 @@ public class PlayerStartsToPlay implements StartToPlayUseCase {
 
     private final QueueRepositoryPort queueRepositoryPort;
     private final GameNotificationPort gameNotificationPort;
+    private final GameOfThreeConsole console;
 
-    public PlayerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort) {
+    public PlayerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort, GameOfThreeConsole console) {
         this.queueRepositoryPort = queueRepositoryPort;
         this.gameNotificationPort = gameNotificationPort;
+        this.console = console;
     }
 
     @Override
@@ -29,7 +32,7 @@ public class PlayerStartsToPlay implements StartToPlayUseCase {
                 gameNotificationPort.notifyGameToTheOpponent(new Game(randomMove), opponentName);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            console.print(e.getMessage());
         }
 
     }
