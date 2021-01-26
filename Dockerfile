@@ -16,8 +16,6 @@ RUN export DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get install -y tzdata
 
-RUN ln -fs /usr/share/zoneinfo/Europe/Zurich /etc/localtime
-
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 ADD ./rabbit-amqp/target/${jarFile} /app/

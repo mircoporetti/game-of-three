@@ -37,8 +37,6 @@ services:
       - "8080:8080"
     depends_on:
       - rabbitmq
-    volumes:
-      - ./config/dev/application.yml:/app/config/application.yml
 
   player2:
     image: got-player:1.0.0
@@ -58,8 +56,6 @@ services:
       - "8081:8081"
     depends_on:
       - rabbitmq
-    volumes:
-      - ./config/dev/application.yml:/app/config/application.yml
 
 networks:
   rabbitmq:
