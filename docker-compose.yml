@@ -1,0 +1,65 @@
+version: '3.7'
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    networks:
+      - rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./docker/rabbitmq/logs:/var/log/rabbitmq/:rw
+      - ./docker/rabbitmq/data:/var/lib/rabbitmq:rw
+      - ./docker/rabbitmq/definitions.json:/opt/definitions.json:ro
+      - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+    hostname: got-rabbit
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "rabbitmq", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
+
+  player1:
+    image: got-player1:1.0.0
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        jarFile: game-of-three.jar
+        playerName: Player1
+        opponentName: Player2
+        mode: AUTO
+        port: 8080
+    networks:
+      - rabbitmq
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./config/dev/application.yml:/app/config/application.yml
+
+  player2:
+    image: got-player2:1.0.0
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        jarFile: game-of-three.jar
+        playerName: Player2
+        opponentName: Player1
+        mode: AUTO
+        port: 8081
+    networks:
+      - rabbitmq
+    ports:
+      - "8081:8081"
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./config/dev/application.yml:/app/config/application.yml
+
+networks:
+  rabbitmq:

@@ -1,0 +1,13 @@
+spring:
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+
+game-of-three:
+  mode: AUTO
+  player-name: Mirco
+  opponent-name: Laura
+  rabbitmq:
+    username: guest
+    password: guest
+    queues-url: http://rabbitmq:15672/api/queues/%2F
