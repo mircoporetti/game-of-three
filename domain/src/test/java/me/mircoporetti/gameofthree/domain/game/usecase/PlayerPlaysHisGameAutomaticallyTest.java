@@ -24,12 +24,12 @@ class PlayerPlaysHisGameAutomaticallyTest {
     @Mock
     private GameNotificationPort gameNotificationPort;
 
-    private PlayerPlaysHisGameAutomatically underTest;
+    private PlayerPlaysHisTurnAutomatically underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerPlaysHisGameAutomatically(gameNotificationPort, console);
+        underTest = new PlayerPlaysHisTurnAutomatically(gameNotificationPort, console);
     }
 
     @Test

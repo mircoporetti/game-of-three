@@ -7,12 +7,12 @@ import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
 import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
 import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
 import me.mircoporetti.gameofthree.domain.game.usecase.*;
-import me.mircoporetti.gameofthree.rabbitmq.events.game.RabbitGameConsumer;
-import me.mircoporetti.gameofthree.rabbitmq.events.game.RabbitGameProducer;
-import me.mircoporetti.gameofthree.rabbitmq.events.game.RabbitGameMapper;
+import me.mircoporetti.gameofthree.rabbitmq.events.game.GameEventConsumer;
+import me.mircoporetti.gameofthree.rabbitmq.events.game.GameEventProducer;
+import me.mircoporetti.gameofthree.rabbitmq.events.game.GameEventMapper;
 import me.mircoporetti.gameofthree.rabbitmq.events.player.Player;
 import me.mircoporetti.gameofthree.rabbitmq.events.player.PlayerMode;
-import me.mircoporetti.gameofthree.rabbitmq.rest.queue.RabbitQueueRestRepository;
+import me.mircoporetti.gameofthree.rabbitmq.rest.queue.QueueRestRepository;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -86,8 +86,8 @@ public class ApplicationConfiguration {
 
 
     @Bean
-    public RabbitGameConsumer gameMessageConsumer(RabbitGameMapper rabbitGameMapper, PlayGameAutomaticallyUseCase playerPlaysHisGame, PlayGameManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay, Player player){
-        return new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, player);
+    public GameEventConsumer gameMessageConsumer(GameEventMapper gameEventMapper, PlayTurnAutomaticallyUseCase playerPlaysHisGame, PlayTurnManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay, Player player){
+        return new GameEventConsumer(gameEventMapper, playerPlaysHisGame, playerPlaysHisGameManually, player);
     }
 
     @Bean
@@ -96,27 +96,27 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public PlayGameAutomaticallyUseCase playerPlaysHisGameAutomatically(GameNotificationPort gamePostman, GameOfThreeConsole console){
-        return new PlayerPlaysHisGameAutomatically(gamePostman, console);
+    public PlayTurnAutomaticallyUseCase playerPlaysHisGameAutomatically(GameNotificationPort gamePostman, GameOfThreeConsole console){
+        return new PlayerPlaysHisTurnAutomatically(gamePostman, console);
     }
 
     @Bean
-    public PlayGameManuallyUseCase playerPlaysHisGameManually(GameNotificationPort gamePostman, GameOfThreeConsole console){
-        return new PlayerPlaysHisGameManually(gamePostman, console);
+    public PlayTurnManuallyUseCase playerPlaysHisGameManually(GameNotificationPort gamePostman, GameOfThreeConsole console){
+        return new PlayerPlaysHisTurnManually(gamePostman, console);
     }
 
     @Bean
     QueueRepositoryPort gameRepositoryPort(RestTemplate restTemplate){
-        return new RabbitQueueRestRepository(restTemplate, rabbitUsername, rabbitPassword, rabbitUrl);
+        return new QueueRestRepository(restTemplate, rabbitUsername, rabbitPassword, rabbitUrl);
     }
 
     @Bean
-    public GameNotificationPort gameNotificationPort(RabbitGameMapper rabbitGameMapper, RabbitTemplate rabbitTemplate){
-        return new RabbitGameProducer(rabbitGameMapper, rabbitTemplate);
+    public GameNotificationPort gameNotificationPort(GameEventMapper gameEventMapper, RabbitTemplate rabbitTemplate){
+        return new GameEventProducer(gameEventMapper, rabbitTemplate);
     }
 
     @Bean
-    public RabbitGameMapper rabbitMessageMapper(ObjectMapper mapper){
-        return new RabbitGameMapper(mapper);
+    public GameEventMapper rabbitMessageMapper(ObjectMapper mapper){
+        return new GameEventMapper(mapper);
     }
 }

@@ -4,12 +4,12 @@ import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
 import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
 
-public class PlayerPlaysHisGameManually implements PlayGameManuallyUseCase {
+public class PlayerPlaysHisTurnManually implements PlayTurnManuallyUseCase {
 
     private final GameNotificationPort gameNotificationPort;
     private final GameOfThreeConsole gameOfThreeConsole;
 
-    public PlayerPlaysHisGameManually(GameNotificationPort gameNotificationPort, GameOfThreeConsole gameOfThreeConsole) {
+    public PlayerPlaysHisTurnManually(GameNotificationPort gameNotificationPort, GameOfThreeConsole gameOfThreeConsole) {
         this.gameNotificationPort = gameNotificationPort;
         this.gameOfThreeConsole = gameOfThreeConsole;
     }

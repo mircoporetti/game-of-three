@@ -15,13 +15,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class RabbitGameMapperTest {
+class GameEventMapperTest {
 
-    private RabbitGameMapper underTest;
+    private GameEventMapper underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new RabbitGameMapper(new ObjectMapper());
+        underTest = new GameEventMapper(new ObjectMapper());
     }
 
     @Test
@@ -29,9 +29,9 @@ class RabbitGameMapperTest {
         String givenJson = "{\"move\": 60}";
         Message givenMessage = new Message(givenJson.getBytes(StandardCharsets.UTF_8), new MessageProperties());
 
-        RabbitGame result = underTest.toGameOfThreeMessage(givenMessage);
+        GameEvent result = underTest.toGameOfThreeMessage(givenMessage);
 
-        assertThat(result, CoreMatchers.is(new RabbitGame(60)));
+        assertThat(result, CoreMatchers.is(new GameEvent(60)));
     }
 
     @Test

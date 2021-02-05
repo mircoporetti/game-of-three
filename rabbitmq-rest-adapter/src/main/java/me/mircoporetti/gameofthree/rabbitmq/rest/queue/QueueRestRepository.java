@@ -13,14 +13,14 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public class RabbitQueueRestRepository  implements QueueRepositoryPort {
+public class QueueRestRepository implements QueueRepositoryPort {
 
     private final RestTemplate restTemplate;
     private final String rabbitUsername;
     private final String rabbitPassword;
     private final String url;
 
-    public RabbitQueueRestRepository(RestTemplate restTemplate, String rabbitUsername, String rabbitPassword, String url) {
+    public QueueRestRepository(RestTemplate restTemplate, String rabbitUsername, String rabbitPassword, String url) {
         this.restTemplate = restTemplate;
         this.rabbitUsername = rabbitUsername;
         this.rabbitPassword = rabbitPassword;
@@ -31,7 +31,7 @@ public class RabbitQueueRestRepository  implements QueueRepositoryPort {
         HttpEntity<String> entity = new HttpEntity<>(createHeaders(rabbitUsername, rabbitPassword));
 
         try{
-            ResponseEntity<RabbitQueue> result = restTemplate.exchange(url + "/" + queueName, HttpMethod.GET,entity, RabbitQueue.class);
+            ResponseEntity<Queue> result = restTemplate.exchange(url + "/" + queueName, HttpMethod.GET,entity, Queue.class);
             return Objects.requireNonNull(result.getBody()).numberOfMessages;
         }catch (HttpClientErrorException e){
             throw new QueueNotExistsException(e.getMessage());

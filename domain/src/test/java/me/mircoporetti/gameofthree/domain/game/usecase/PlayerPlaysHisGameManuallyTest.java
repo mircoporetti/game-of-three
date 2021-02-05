@@ -18,12 +18,12 @@ class PlayerPlaysHisGameManuallyTest {
     @Mock
     private GameNotificationPort gameNotificationPort;
 
-    private PlayGameManuallyUseCase underTest;
+    private PlayTurnManuallyUseCase underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerPlaysHisGameManually(gameNotificationPort, console);
+        underTest = new PlayerPlaysHisTurnManually(gameNotificationPort, console);
     }
 
     @Test
