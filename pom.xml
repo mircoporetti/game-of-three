@@ -15,8 +15,9 @@
         <relativePath/>
     </parent>
     <modules>
-        <module>rabbitmq-events-adapter</module>
+        <module>spring-application</module>
         <module>domain</module>
+        <module>rabbitmq-events-adapter</module>
         <module>rabbitmq-rest-adapter</module>
         <module>console-adapter</module>
     </modules>

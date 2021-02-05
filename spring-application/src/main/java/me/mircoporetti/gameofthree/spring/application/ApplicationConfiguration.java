@@ -1,4 +1,4 @@
-package me.mircoporetti.gameofthree.rabbitmq.events;
+package me.mircoporetti.gameofthree.spring.application;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
