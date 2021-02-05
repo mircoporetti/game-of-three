@@ -2,18 +2,18 @@ package me.mircoporetti.gameofthree.domain.game.usecase;
 
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
-import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsolePort;
 import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
 
 import java.util.Random;
 
-public class PlayerStartsToPlay implements StartToPlayUseCase {
+public class PlayerJoinsTheGame implements JoinTheGameUseCase {
 
     private final QueueRepositoryPort queueRepositoryPort;
     private final GameNotificationPort gameNotificationPort;
-    private final GameOfThreeConsole console;
+    private final GameOfThreeConsolePort console;
 
-    public PlayerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort, GameOfThreeConsole console) {
+    public PlayerJoinsTheGame(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort, GameOfThreeConsolePort console) {
         this.queueRepositoryPort = queueRepositoryPort;
         this.gameNotificationPort = gameNotificationPort;
         this.console = console;

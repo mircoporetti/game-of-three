@@ -3,7 +3,7 @@ package me.mircoporetti.gameofthree.domain.game.usecase;
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.exception.QueueNotExistsException;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
-import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsolePort;
 import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,21 +13,21 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class PlayerStartsToPlayTest {
+class PlayerJoinsTheGameTest {
 
     @Mock
-    private GameOfThreeConsole console;
+    private GameOfThreeConsolePort console;
     @Mock
     private QueueRepositoryPort queueRepositoryPort;
     @Mock
     private GameNotificationPort gameNotificationPort;
 
-    private PlayerStartsToPlay underTest;
+    private PlayerJoinsTheGame underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerStartsToPlay(queueRepositoryPort, gameNotificationPort, console);
+        underTest = new PlayerJoinsTheGame(queueRepositoryPort, gameNotificationPort, console);
     }
 
     @Test

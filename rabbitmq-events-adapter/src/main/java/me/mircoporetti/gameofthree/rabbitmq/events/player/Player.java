@@ -1,6 +1,6 @@
 package me.mircoporetti.gameofthree.rabbitmq.events.player;
 
-import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.JoinTheGameUseCase;
 
 import javax.annotation.PostConstruct;
 
@@ -10,9 +10,9 @@ public class Player {
     private final String opponentName;
     private final PlayerMode playerMode;
 
-    private final StartToPlayUseCase startToPlay;
+    private final JoinTheGameUseCase startToPlay;
 
-    public Player(String playerName, String opponentName, PlayerMode playerMode, StartToPlayUseCase startToPlay) {
+    public Player(String playerName, String opponentName, PlayerMode playerMode, JoinTheGameUseCase startToPlay) {
         this.playerName = playerName;
         this.opponentName = opponentName;
         this.playerMode = playerMode;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayTurnManuallyUseCase;
 import me.mircoporetti.gameofthree.domain.game.usecase.PlayTurnAutomaticallyUseCase;
-import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.JoinTheGameUseCase;
 import me.mircoporetti.gameofthree.rabbitmq.events.player.Player;
 import me.mircoporetti.gameofthree.rabbitmq.events.player.PlayerMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ class GameEventConsumerTest {
     @Mock
     private PlayTurnManuallyUseCase playerPlaysHisGameManually;
     @Mock
-    private StartToPlayUseCase playerStartsToPlay;
+    private JoinTheGameUseCase playerStartsToPlay;
     @Mock
     private GameEventMapper gameEventMapper;
 

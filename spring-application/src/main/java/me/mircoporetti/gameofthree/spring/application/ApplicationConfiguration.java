@@ -2,9 +2,9 @@ package me.mircoporetti.gameofthree.spring.application;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.mircoporetti.gameofthree.console.SystemConsole;
+import me.mircoporetti.gameofthree.console.SystemConsolePort;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
-import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsolePort;
 import me.mircoporetti.gameofthree.domain.game.port.QueueRepositoryPort;
 import me.mircoporetti.gameofthree.domain.game.usecase.*;
 import me.mircoporetti.gameofthree.rabbitmq.events.game.GameEventConsumer;
@@ -54,8 +54,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public GameOfThreeConsole console(){
-        return new SystemConsole();
+    public GameOfThreeConsolePort console(){
+        return new SystemConsolePort();
     }
 
     @Bean
@@ -80,28 +80,28 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public Player playerGameConfiguration(PlayerMode playerMode, StartToPlayUseCase startToPlayUseCase){
-        return new Player(playerName, opponentName, playerMode, startToPlayUseCase);
+    public Player playerGameConfiguration(PlayerMode playerMode, JoinTheGameUseCase joinTheGameUseCase){
+        return new Player(playerName, opponentName, playerMode, joinTheGameUseCase);
     }
 
 
     @Bean
-    public GameEventConsumer gameMessageConsumer(GameEventMapper gameEventMapper, PlayTurnAutomaticallyUseCase playerPlaysHisGame, PlayTurnManuallyUseCase playerPlaysHisGameManually, StartToPlayUseCase playerStartsToPlay, Player player){
+    public GameEventConsumer gameMessageConsumer(GameEventMapper gameEventMapper, PlayTurnAutomaticallyUseCase playerPlaysHisGame, PlayTurnManuallyUseCase playerPlaysHisGameManually, JoinTheGameUseCase playerStartsToPlay, Player player){
         return new GameEventConsumer(gameEventMapper, playerPlaysHisGame, playerPlaysHisGameManually, player);
     }
 
     @Bean
-    public StartToPlayUseCase playerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort, GameOfThreeConsole console){
-        return new PlayerStartsToPlay(queueRepositoryPort, gameNotificationPort, console);
+    public JoinTheGameUseCase playerStartsToPlay(QueueRepositoryPort queueRepositoryPort, GameNotificationPort gameNotificationPort, GameOfThreeConsolePort console){
+        return new PlayerJoinsTheGame(queueRepositoryPort, gameNotificationPort, console);
     }
 
     @Bean
-    public PlayTurnAutomaticallyUseCase playerPlaysHisGameAutomatically(GameNotificationPort gamePostman, GameOfThreeConsole console){
+    public PlayTurnAutomaticallyUseCase playerPlaysHisGameAutomatically(GameNotificationPort gamePostman, GameOfThreeConsolePort console){
         return new PlayerPlaysHisTurnAutomatically(gamePostman, console);
     }
 
     @Bean
-    public PlayTurnManuallyUseCase playerPlaysHisGameManually(GameNotificationPort gamePostman, GameOfThreeConsole console){
+    public PlayTurnManuallyUseCase playerPlaysHisGameManually(GameNotificationPort gamePostman, GameOfThreeConsolePort console){
         return new PlayerPlaysHisTurnManually(gamePostman, console);
     }
 

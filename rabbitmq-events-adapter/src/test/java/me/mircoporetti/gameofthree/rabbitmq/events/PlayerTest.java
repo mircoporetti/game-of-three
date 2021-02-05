@@ -1,6 +1,6 @@
 package me.mircoporetti.gameofthree.rabbitmq.events;
 
-import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.JoinTheGameUseCase;
 import me.mircoporetti.gameofthree.rabbitmq.events.player.Player;
 import me.mircoporetti.gameofthree.rabbitmq.events.player.PlayerMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class PlayerTest {
 
     @Mock
-    private StartToPlayUseCase playerStartsToPlay;
+    private JoinTheGameUseCase playerStartsToPlay;
 
     private Player underTest;
 
