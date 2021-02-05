@@ -5,12 +5,12 @@ import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-public class RabbitGameProducer implements GameNotificationPort {
+public class GameEventProducer implements GameNotificationPort {
 
-    private final RabbitGameMapper mapper;
+    private final GameEventMapper mapper;
     private final RabbitTemplate rabbitTemplate;
 
-    public RabbitGameProducer(RabbitGameMapper mapper, RabbitTemplate rabbitTemplate) {
+    public GameEventProducer(GameEventMapper mapper, RabbitTemplate rabbitTemplate) {
         this.mapper = mapper;
         this.rabbitTemplate = rabbitTemplate;
     }

@@ -12,7 +12,6 @@
     <artifactId>spring-application</artifactId>
 
     <properties>
-        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
         <maven.compiler.source>13</maven.compiler.source>
         <maven.compiler.target>13</maven.compiler.target>
     </properties>

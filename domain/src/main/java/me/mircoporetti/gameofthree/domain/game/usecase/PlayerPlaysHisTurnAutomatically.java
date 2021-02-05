@@ -2,16 +2,16 @@ package me.mircoporetti.gameofthree.domain.game.usecase;
 
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
-import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsolePort;
 
-public class PlayerPlaysHisGameAutomatically implements PlayGameAutomaticallyUseCase {
+public class PlayerPlaysHisTurnAutomatically implements PlayTurnAutomaticallyUseCase {
 
     private final GameNotificationPort gameNotificationPort;
-    private final GameOfThreeConsole gameOfThreeConsole;
+    private final GameOfThreeConsolePort gameOfThreeConsolePort;
 
-    public PlayerPlaysHisGameAutomatically(GameNotificationPort gameNotificationPort, GameOfThreeConsole gameOfThreeConsole) {
+    public PlayerPlaysHisTurnAutomatically(GameNotificationPort gameNotificationPort, GameOfThreeConsolePort gameOfThreeConsolePort) {
         this.gameNotificationPort = gameNotificationPort;
-        this.gameOfThreeConsole = gameOfThreeConsole;
+        this.gameOfThreeConsolePort = gameOfThreeConsolePort;
     }
 
     public void invoke(Game opponentGame, String opponentName) {
@@ -21,6 +21,6 @@ public class PlayerPlaysHisGameAutomatically implements PlayGameAutomaticallyUse
         if(nextGame.checkIfPlayable())
             gameNotificationPort.notifyGameToTheOpponent(nextGame, opponentName);
         else
-           gameOfThreeConsole.print("WIN!!!");
+           gameOfThreeConsolePort.print("WIN!!!");
     }
 }

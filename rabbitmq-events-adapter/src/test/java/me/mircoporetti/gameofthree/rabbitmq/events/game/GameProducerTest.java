@@ -15,19 +15,19 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class GameProducerTest {
 
     @Mock
-    private RabbitGameMapper mapper;
+    private GameEventMapper mapper;
     @Mock
     private RabbitTemplate rabbitTemplate;
 
     private String opponentName;
 
-    private RabbitGameProducer underTest;
+    private GameEventProducer underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
         opponentName = "anOpponentName";
-        underTest = new RabbitGameProducer(mapper, rabbitTemplate);
+        underTest = new GameEventProducer(mapper, rabbitTemplate);
     }
 
     @Test

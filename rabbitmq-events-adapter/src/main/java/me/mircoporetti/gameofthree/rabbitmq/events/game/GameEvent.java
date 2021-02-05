@@ -2,14 +2,14 @@ package me.mircoporetti.gameofthree.rabbitmq.events.game;
 
 import java.util.Objects;
 
-public class RabbitGame {
+public class GameEvent {
 
     private Integer move;
 
-    public RabbitGame() {
+    public GameEvent() {
     }
 
-    public RabbitGame(Integer move) {
+    public GameEvent(Integer move) {
         this.move = move;
     }
 
@@ -21,8 +21,8 @@ public class RabbitGame {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RabbitGame rabbitGame = (RabbitGame) o;
-        return Objects.equals(move, rabbitGame.move);
+        GameEvent gameEvent = (GameEvent) o;
+        return Objects.equals(move, gameEvent.move);
     }
 
     @Override

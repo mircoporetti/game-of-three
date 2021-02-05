@@ -5,17 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.mircoporetti.gameofthree.domain.game.Game;
 import org.springframework.amqp.core.Message;
 
-public class RabbitGameMapper {
+public class GameEventMapper {
 
     private final ObjectMapper mapper;
 
-    public RabbitGameMapper(ObjectMapper mapper) {
+    public GameEventMapper(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
-    public RabbitGame toGameOfThreeMessage(Message message) throws JsonProcessingException {
+    public GameEvent toGameOfThreeMessage(Message message) throws JsonProcessingException {
             String messageToBeConverted = new String(message.getBody());
-            return mapper.readValue(messageToBeConverted, RabbitGame.class);
+            return mapper.readValue(messageToBeConverted, GameEvent.class);
     }
 
     public String toJsonMessage(Game game) throws JsonProcessingException {

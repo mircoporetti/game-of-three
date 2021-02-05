@@ -2,9 +2,9 @@ package me.mircoporetti.gameofthree.rabbitmq.events.game;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import me.mircoporetti.gameofthree.domain.game.Game;
-import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameManuallyUseCase;
-import me.mircoporetti.gameofthree.domain.game.usecase.PlayGameAutomaticallyUseCase;
-import me.mircoporetti.gameofthree.domain.game.usecase.StartToPlayUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayTurnManuallyUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.PlayTurnAutomaticallyUseCase;
+import me.mircoporetti.gameofthree.domain.game.usecase.JoinTheGameUseCase;
 import me.mircoporetti.gameofthree.rabbitmq.events.player.Player;
 import me.mircoporetti.gameofthree.rabbitmq.events.player.PlayerMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,35 +17,35 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class RabbitGameConsumerTest {
+class GameEventConsumerTest {
 
     @Mock
-    private PlayGameAutomaticallyUseCase playerPlaysHisGame;
+    private PlayTurnAutomaticallyUseCase playerPlaysHisGame;
     @Mock
-    private PlayGameManuallyUseCase playerPlaysHisGameManually;
+    private PlayTurnManuallyUseCase playerPlaysHisGameManually;
     @Mock
-    private StartToPlayUseCase playerStartsToPlay;
+    private JoinTheGameUseCase playerStartsToPlay;
     @Mock
-    private RabbitGameMapper rabbitGameMapper;
+    private GameEventMapper gameEventMapper;
 
     private String playerName;
     private String opponentName;
 
-    private RabbitGameConsumer underTest;
+    private GameEventConsumer underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
         playerName = "aName";
         opponentName = "anOpponentNAme";
-        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, new Player(playerName, opponentName, PlayerMode.AUTO, playerStartsToPlay));
+        underTest = new GameEventConsumer(gameEventMapper, playerPlaysHisGame, playerPlaysHisGameManually, new Player(playerName, opponentName, PlayerMode.AUTO, playerStartsToPlay));
     }
 
     @Test
     void receiveAMessage_playYourAutomaticTurn() throws JsonProcessingException {
         Message anyGivenMessage = new Message("".getBytes(), new MessageProperties());
 
-        doReturn(new RabbitGame(60)).when(rabbitGameMapper).toGameOfThreeMessage(any());
+        doReturn(new GameEvent(60)).when(gameEventMapper).toGameOfThreeMessage(any());
 
         underTest.consumeOpponentGame(anyGivenMessage);
 
@@ -57,9 +57,9 @@ class RabbitGameConsumerTest {
     void receiveAMessage_playYourManualTurn() throws JsonProcessingException {
         Message anyGivenMessage = new Message("".getBytes(), new MessageProperties());
 
-        doReturn(new RabbitGame(60)).when(rabbitGameMapper).toGameOfThreeMessage(any());
+        doReturn(new GameEvent(60)).when(gameEventMapper).toGameOfThreeMessage(any());
 
-        underTest = new RabbitGameConsumer(rabbitGameMapper, playerPlaysHisGame, playerPlaysHisGameManually, new Player(playerName, opponentName, PlayerMode.MANUAL, playerStartsToPlay));
+        underTest = new GameEventConsumer(gameEventMapper, playerPlaysHisGame, playerPlaysHisGameManually, new Player(playerName, opponentName, PlayerMode.MANUAL, playerStartsToPlay));
         underTest.consumeOpponentGame(anyGivenMessage);
 
         verify(playerPlaysHisGame, never()).invoke(new Game(60),opponentName);
@@ -70,7 +70,7 @@ class RabbitGameConsumerTest {
     void cannotReceiveOpponentMessage_dontPlayYourTurn() throws JsonProcessingException {
         Message anyGivenMessage = new Message("".getBytes(), new MessageProperties());
 
-        doThrow(JsonProcessingException.class).when(rabbitGameMapper).toGameOfThreeMessage(any());
+        doThrow(JsonProcessingException.class).when(gameEventMapper).toGameOfThreeMessage(any());
 
         underTest.consumeOpponentGame(anyGivenMessage);
 

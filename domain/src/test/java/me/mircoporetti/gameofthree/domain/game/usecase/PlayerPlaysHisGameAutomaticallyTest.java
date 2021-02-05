@@ -2,7 +2,7 @@ package me.mircoporetti.gameofthree.domain.game.usecase;
 
 import me.mircoporetti.gameofthree.domain.game.Game;
 import me.mircoporetti.gameofthree.domain.game.port.GameNotificationPort;
-import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsolePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,16 +20,16 @@ class PlayerPlaysHisGameAutomaticallyTest {
     */
 
     @Mock
-    private GameOfThreeConsole console;
+    private GameOfThreeConsolePort console;
     @Mock
     private GameNotificationPort gameNotificationPort;
 
-    private PlayerPlaysHisGameAutomatically underTest;
+    private PlayerPlaysHisTurnAutomatically underTest;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
-        underTest = new PlayerPlaysHisGameAutomatically(gameNotificationPort, console);
+        underTest = new PlayerPlaysHisTurnAutomatically(gameNotificationPort, console);
     }
 
     @Test

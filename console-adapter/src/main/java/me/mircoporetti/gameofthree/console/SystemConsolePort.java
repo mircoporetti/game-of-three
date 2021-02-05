@@ -1,13 +1,12 @@
 package me.mircoporetti.gameofthree.console;
 
-import me.mircoporetti.gameofthree.domain.game.Game;
-import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsole;
+import me.mircoporetti.gameofthree.domain.game.port.GameOfThreeConsolePort;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class SystemConsole implements GameOfThreeConsole {
+public class SystemConsolePort implements GameOfThreeConsolePort {
 
     @Override
     public void print(String line) {
