@@ -15,10 +15,10 @@
         <relativePath/>
     </parent>
     <modules>
-        <module>rabbit-amqp</module>
+        <module>rabbitmq-events-adapter</module>
         <module>domain</module>
-        <module>rabbit-rest</module>
-        <module>console</module>
+        <module>rabbitmq-rest-adapter</module>
+        <module>console-adapter</module>
     </modules>
 
     <properties>
